@@ -119,9 +119,9 @@ https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 
 
 
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/A-Elbana/SortingAlgos.svg?style=for-the-badge
 [forks-url]: https://github.com/A-Elbana/SortingAlgos/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/A-Elbana/SortingAlgos.svg?style=for-the-badge
 [stars-url]: https://github.com/A-Elbana/SortingAlgos/stargazers
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
