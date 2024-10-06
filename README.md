@@ -2,6 +2,8 @@
 
 ### Bubble Sort
 ---
-<video width="320" height="240" controls>
-  <source src="https://github.com/A-Elbana/SortingAlgos/videos/BubbleSort.mp4" type="video/mp4">
-</video>
+
+
+https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
+
+  
