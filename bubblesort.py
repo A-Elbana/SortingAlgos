@@ -53,7 +53,7 @@ class BubbleSort(Scene):
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
         for i in range (0, n):
-            # Stretch bar height appropiately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
+            # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
             array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.5)
 
             # Shift bar to the right by its width + the shifting which acts as padding
