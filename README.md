@@ -26,9 +26,10 @@
       </ul>
     </li>
     <li><a href="#objective">Objective</a></li>
+    <li><a href="#Visualizations">Visualizations</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
-    <li><a href="#Visualizations">Visualizations</a></li>
+    
   </ol>
 </details>
 
