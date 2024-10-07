@@ -60,7 +60,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 
 ### Prerequisites
 
-* Python 3.9+ [All Realeases Here](https://www.python.org/downloads/)
+* Python 3.9+ [All Releases Here](https://www.python.org/downloads/)
 * Manim [Follow Instructions On Official Website](https://www.manim.community/)
 * [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change `Tex()` Mobjects to `Text()` to render text normally)
   
@@ -81,7 +81,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
    manim -pqh visualiser.py {AlgorithmName}
    ```
    This will render a video in 1080p60. For lower quality use the `-pql` flag.<br>
-   For available `{AlgorithmName}` refer to table below.
+   For available `{AlgorithmName}` refer to the table below.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
