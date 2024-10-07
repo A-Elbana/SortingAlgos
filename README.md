@@ -62,7 +62,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 
 * Python 3.9+ [All Realeases Here](https://www.python.org/downloads/)
 * Manim [Follow Instructions On Official Website](https://www.manim.community/)
-* [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change Tex Mobjects to Text to render text normally)
+* [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change `Tex()` Mobjects to `Text()` to render text normally)
   
 
 ### Installation and Usage
@@ -87,6 +87,30 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 
 
 
+
+<!-- VISUALIZATIONS -->
+## Visualizations
+
+### Bubble Sort
+##### Complexity: $O(n^2)$
+
+https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
+
+---
+
+### Selection Sort
+##### Complexity: $O(n^2)$
+
+
+---
+
+### Merge Sort
+##### Complexity: $O(n \log(n))$
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 <!-- CONTACT -->
 ## Contact
 
@@ -104,18 +128,6 @@ Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-El
 * [Geeksforgeeks - Bubble Sort Algorithm](https://www.geeksforgeeks.org/bubble-sort-algorithm/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- VISUALIZATIONS -->
-## Visualizations
-
-### Bubble Sort
-##### Complexity: $O(n^2)$
-
-https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 
 
