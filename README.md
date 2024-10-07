@@ -65,6 +65,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 * Manim [Follow Instructions On Official Website](https://www.manim.community/)
 * [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change `Tex()` Mobjects to `Text()` to render text normally)
   
+<a id="installation"></a>
 
 ### Installation and Usage
 
