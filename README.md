@@ -92,20 +92,26 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 ## Visualizations
 
 ### Bubble Sort
-##### Complexity: $O(n^2)$
+##### Time Complexity: $O(n^2)$
 
 https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 
 ---
 
 ### Selection Sort
-##### Complexity: $O(n^2)$
+##### Time Complexity: $O(n^2)$
+
+
+
+https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
 
 ---
 
 ### Merge Sort
-##### Complexity: $O(n \log(n))$
+##### Time Complexity: $O(n \log(n))$
+
+https://github.com/user-attachments/assets/e03e504b-4b20-4c23-9508-b5d534c483d5
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
