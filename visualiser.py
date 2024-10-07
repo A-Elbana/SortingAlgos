@@ -226,6 +226,7 @@ class MergeSort(Scene):
             mergedVGroup = VGroup(*c)
             self.play(mergedVGroup.animate.set_fill(BLUE), run_time=0.1)
             while a and b:
+                self.play(b[0].animate.set_fill(RED),a[0].animate.set_fill(RED), run_time=0.1)
                 if a[0].height < b[0].height:
                     swap(array[curr_pos], array[arraydict[a[0].height]], self)
                     
@@ -238,6 +239,7 @@ class MergeSort(Scene):
                     # Traverse to next bar position
                     curr_pos += 1
                     merged.append(a[0])
+                    self.play(b[0].animate.set_fill(BLUE),a[0].animate.set_fill(BLUE), run_time=0.1)
                     a.popleft()
                 else:
                     swap(array[curr_pos], array[arraydict[b[0].height]], self)
@@ -251,7 +253,9 @@ class MergeSort(Scene):
                     # Traverse to next bar position
                     curr_pos += 1
                     merged.append(b[0])
+                    self.play(b[0].animate.set_fill(BLUE),a[0].animate.set_fill(BLUE), run_time=0.1)
                     b.popleft()
+                
             
             while a:
                 swap(array[curr_pos], array[arraydict[a[0].height]], self)
