@@ -111,7 +111,7 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 ### Merge Sort
 ##### Time Complexity: $O(n \log(n))$
 
-https://github.com/user-attachments/assets/e03e504b-4b20-4c23-9508-b5d534c483d5
+https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
