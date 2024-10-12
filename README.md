@@ -26,9 +26,10 @@
       </ul>
     </li>
     <li><a href="#objective">Objective</a></li>
+    <li><a href="#Visualizations">Visualizations</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
-    <li><a href="#Visualizations">Visualizations</a></li>
+    
   </ol>
 </details>
 
@@ -64,6 +65,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 * Manim [Follow Instructions On Official Website](https://www.manim.community/)
 * [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change `Tex()` Mobjects to `Text()` to render text normally)
   
+<a id="installation"></a>
 <a id="readme-top"></a>
 ### Installation and Usage
 
@@ -140,6 +142,8 @@ Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-El
 ## Acknowledgments
 
 * [Geeksforgeeks - Bubble Sort Algorithm](https://www.geeksforgeeks.org/bubble-sort-algorithm/)
+* [Merge Sort Explanation](https://www.youtube.com/watch?v=4VqmGXwpLqc)
+* [Selection Sort Explanation](https://youtu.be/g-PGLbMth_g?si=2WM32az9L8182Ksy)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
