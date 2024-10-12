@@ -121,7 +121,7 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 ### Quick Sort
 ##### Time Complexity: $O(n \log(n))$
 
-
+![](https://youtu.be/90QprjllIPU)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
