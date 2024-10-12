@@ -103,8 +103,6 @@ https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 ### Selection Sort
 ##### Time Complexity: $O(n^2)$
 
-
-
 https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
 
@@ -121,7 +119,9 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 ### Quick Sort
 ##### Time Complexity: $O(n \log(n))$
 
-![](https://youtu.be/90QprjllIPU)
+https://github.com/user-attachments/assets/2ce3bd9f-3a1e-42d4-b48a-f03219fbdc58
+
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
