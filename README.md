@@ -22,7 +22,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#installation and usage">Installation and Usage</a></li>
       </ul>
     </li>
     <li><a href="#objective">Objective</a></li>
@@ -64,7 +64,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 * Manim [Follow Instructions On Official Website](https://www.manim.community/)
 * [TeX/LaTeX](https://miktex.org/download) (If you don't want to install LaTeX on your system, change `Tex()` Mobjects to `Text()` to render text normally)
   
-
+<a id="readme-top"></a>
 ### Installation and Usage
 
 
@@ -112,6 +112,14 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 ##### Time Complexity: $O(n \log(n))$
 
 https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
+
+
+---
+
+### Quick Sort
+##### Time Complexity: $O(n \log(n))$
+
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

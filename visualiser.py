@@ -1,7 +1,6 @@
-import math
 from manim import *
 import random
-
+N = 30 # Number of elements
 
 class RNGenerator:
     
@@ -30,12 +29,18 @@ class RNGenerator:
                 return random_number
 
 
+def generateName():
+    name = Tex("By Abdelrahman Elbana", font_size=50).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
+    githubName = Tex("Github: A-Elbana", font_size=40).next_to(name,DOWN).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
+
+    return name, githubName
+
 
 class BubbleSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=30 # Number of elements
+        n=N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -46,9 +51,9 @@ class BubbleSort(Scene):
         text = Tex(r"Bubble Sort $O(n^2)$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Title
-        text = Tex("By Abdelrahman Elbana", font_size=50).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
-        self.play(Write(text))
+        # Generate Name
+        name, githubName = generateName()
+        self.play(Write(name),Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -86,9 +91,10 @@ class BubbleSort(Scene):
 
                     # Revert highlighting (Instantaneous, no animation)
                     array[j].set_fill(WHITE)
-                    array[j+1].set_fill(WHITE)
                     array[j].set_color(WHITE)
                     array[j+1].set_color(WHITE)
+                    if j+1 == n-i-1:
+                        array[j+1].set_fill(GREEN)
         
         # Create a new Vector group of the now ordered elements to play a staggered animation
         ordered_group = VGroup(*array)
@@ -100,20 +106,20 @@ class SelectionSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=30 # Number of elements
+        n=N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
         # Get bar width relative to frame size
         bar_width = (self.camera.frame_width - shifting * n - 3) / (n)
 
-        # Generate Title
+        # Generate Name
         text = Tex(r"Selection Sort $O(n^2)$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Title
-        text = Tex("By Abdelrahman Elbana", font_size=50).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
-        self.play(Write(text))
+        # Generate Name
+        name, githubName = generateName()
+        self.play(Write(name),Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -138,7 +144,7 @@ class SelectionSort(Scene):
             self.play(array[i].animate.set_fill(RED), run_time = 0.1)
             for j in range(i+1, n):
                 curr_item = j
-                self.play(array[curr_item].animate.set_fill(YELLOW_D), array[curr_item].animate.set_color(YELLOW_D), run_time = 0.07)
+                self.play(array[curr_item].animate.set_fill(YELLOW_D), run_time = 0.07)
                 if array[curr_item].height < array[curr_min].height:
                     self.play(array[curr_min].animate.set_fill(WHITE), array[curr_min].animate.set_color(WHITE), run_time = 0.1)
                     curr_min = curr_item
@@ -164,7 +170,7 @@ class SelectionSort(Scene):
 
 
 
-def swap(a:Rectangle,b:Rectangle,scene):
+def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, sim_anim = []):
     # Switch positions visually
     if a.height != b.height:
         # Make sure we are not switching the same bar. (Example: When our new bar position is not changed)
@@ -172,16 +178,19 @@ def swap(a:Rectangle,b:Rectangle,scene):
         pj1 = b.get_bottom()
         scene.play(
             a.animate.shift(pj1-pj),
-            b.animate.shift(pj-pj1), run_time = 0.07
+            b.animate.shift(pj-pj1),
+            *sim_anim,
+            run_time = run_time
         )
 
+# Import the double-ended queue data structure
 from collections import deque
 
 class MergeSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=30 # Number of elements
+        n=N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -192,9 +201,9 @@ class MergeSort(Scene):
         text = Tex(r"Merge Sort $O(n \log(n))$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Title
-        text = Tex("By Abdelrahman Elbana", font_size=50).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
-        self.play(Write(text))
+        # Generate Name
+        name, githubName = generateName()
+        self.play(Write(name),Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -297,6 +306,185 @@ class MergeSort(Scene):
 
         list(mergeSort(array))
         
+        # Create a new Vector group of the now ordered elements to play a staggered animation
+        ordered_group = VGroup(*array)
+        self.play(ordered_group.animate(lag_ratio=0.2).set_color(GREEN))
+        self.wait(5)
+
+
+
+class QuickSort(Scene):
+    """Manim Scene Class
+    """
+    def construct(self):
+        n=N # Number of elements
+        rn = RNGenerator(n) # Generator object
+        shifting = 0.1 # Padding between bars
+
+        # Get bar width relative to frame size
+        bar_width = (self.camera.frame_width - shifting * n - 3) / (n)
+
+        # Generate Title
+        title = Tex(r"Quick Sort $O(n \log(n))$", font_size=55).to_edge(DOWN)
+        self.play(Write(title))
+
+        # Generate Name
+        name, githubName = generateName()
+        self.play(Write(name),Write(githubName))
+
+        # Setup bar for each element
+        array=[Rectangle(width=bar_width) for _ in range(n)]
+        for i in range (0, n):
+            # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
+            array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.5)
+
+            # Shift bar to the right by its width + the shifting which acts as padding
+            array[i].shift(RIGHT*(bar_width+shifting)*i)
+            
+            # Align the bottom edge of each bar
+            array[i].align_to((0,0,0),DOWN)
+        group=VGroup(*array)
+        group.move_to(ORIGIN)
+        group.set_fill(WHITE,opacity=1)
+        self.play(*[Write(o) for o in array])
+        # /Setup
+
+
+        # Move Title
+        self.play(title.animate.to_edge(UP+RIGHT), run_time=0.5)
+
+        # # Run Quick Sort
+        def partition(arr:list[Rectangle], low:int, high:int):
+            # Choose pivot using the median-of-three method
+            pivot_pos = sorted([(arr[low].height,low),(arr[(high+1+low)//2].height, (high+1+low)//2), (arr[high].height, high)], key=lambda x: x[0])[1][1]
+            
+            # Setup pointers used to parse and arrange array into two sub-arrays (Greater than pivot and smaller than pivot)
+            l_idx = low
+            l_idx_indicator = VGroup()
+            l_idx_arrow = Arrow(start= arr[l_idx].get_bottom() + 1.4*DOWN, end=arr[l_idx].get_bottom()+0.4*DOWN, color=WHITE)
+            l_idx_indicator.add(l_idx_arrow)
+            l_idx_indicator.add(Text("l_idx",font_size=20,color=BLUE_B).next_to(l_idx_arrow, DOWN))
+
+            r_idx = high - 1
+            r_idx_indicator = VGroup()
+            r_idx_arrow = Arrow(start= arr[r_idx].get_bottom() + 1.4*DOWN, end=arr[r_idx].get_bottom()+0.4*DOWN, color=WHITE)
+            r_idx_indicator.add(r_idx_arrow)
+            r_idx_indicator.add(Text("r_idx",font_size=20,color=RED).next_to(r_idx_arrow, DOWN))
+            
+
+            #--------Visuals--------
+            # Title used to indicate where the pivot is located
+            pivot_title = Text("Pivot",font_size=25).move_to(arr[pivot_pos].get_bottom() + 0.4*DOWN)
+            self.play(arr[pivot_pos].animate.set_fill(YELLOW_D), Write(pivot_title), run_time=0.15)
+            self.wait(0.5)
+            pj = arr[pivot_pos].get_bottom()
+            pj1 = arr[high].get_bottom()
+            self.play(
+                arr[pivot_pos].animate.shift(pj1-pj),
+                arr[high].animate.shift(pj-pj1),
+                pivot_title.animate.shift(pj1-pj),
+                run_time = 0.5
+            )
+             #--------/Visuals--------
+            
+            # Move pivot to the end of the array
+            arr[high], arr[pivot_pos] = arr[pivot_pos], arr[high] # pivot = arr[high]
+
+             #--------Visuals--------
+            pivot_arrow_1 = Arrow(start= arr[l_idx].get_bottom() + 1.3*DOWN, end=arr[l_idx].get_bottom(), color=WHITE,buff=0).align_to(pivot_title.get_center(), UP)
+
+            pivot_arrow_2 = Arrow(start= pivot_arrow_1.get_start(), end=[pivot_title.get_x(),pivot_arrow_1.get_bottom()[1],pivot_arrow_1.get_z()],stroke_width=6,max_stroke_width_to_length_ratio=float('inf'), color=WHITE,buff=0, max_tip_length_to_length_ratio=0)
+
+            pivot_arrow_2.shift(UP * 0.02)
+            pivot_arrow_3 = Arrow(start= pivot_arrow_2.get_end(), end=pivot_title.get_bottom() + 0.1 * DOWN, color=WHITE,buff=0, max_tip_length_to_length_ratio=0)
+
+            
+            self.play(Write(l_idx_indicator),Write(r_idx_indicator), run_time=0.2)
+            #--------/Visuals--------
+
+            while l_idx <= r_idx:
+                # Revert pointers to the edges of the sub-array (This is done for clarity purposes when visualizing and is not necessary in the algorithm)
+
+                l_idx = low # <- Removable
+                r_idx = high - 1 # <- Removable
+
+                #--------Visuals--------
+                self.play(r_idx_indicator.animate.move_to([arr[r_idx].get_x(),r_idx_indicator.get_y(),0]),l_idx_indicator.animate.move_to([arr[l_idx].get_x(),l_idx_indicator.get_y(),0]), run_time=0.2)
+                #--------/Visuals--------
+
+                # Parse the sub-array from the left until a number greater than the pivot is found
+                while arr[l_idx].height < arr[high].height:
+                    l_idx += 1
+
+                    #--------Visuals--------
+                    self.play(l_idx_indicator.animate.move_to([arr[l_idx].get_x(),l_idx_indicator.get_y(),0]), run_time=0.1)
+                    #--------/Visuals--------
+                
+                # Parse the sub-array from the right until a number less than the pivot is found
+                while arr[r_idx].height > arr[high].height:
+                    r_idx -= 1
+
+                    #--------Visuals--------
+                    self.play(r_idx_indicator.animate.move_to([arr[r_idx].get_x(),r_idx_indicator.get_y(),0]), run_time=0.1)
+                    #--------/Visuals--------
+                
+                # If both pointers haven't crossed eachother. Switch the elements' positions.
+                if l_idx <= r_idx:
+                    #--------Visuals--------
+                    self.play(arr[l_idx].animate.set_fill(BLUE),arr[r_idx].animate.set_fill(BLUE), run_time=0.1)
+                    self.wait(0.3)
+                    swap(arr[l_idx],arr[r_idx],self,0.1)
+                    self.play(arr[l_idx].animate.set_fill(WHITE),arr[r_idx].animate.set_fill(WHITE), run_time=0.1)
+                    #--------/Visuals--------
+
+                    # Swapping array elements.
+                    arr[r_idx], arr[l_idx]= arr[l_idx], arr[r_idx]
+
+            #--------/Visuals--------
+            self.wait(0.4)
+            self.play(Unwrite(l_idx_indicator),Unwrite(r_idx_indicator), run_time=0.2)
+            
+            pivot_arrow_1.move_to([arr[l_idx].get_x(), pivot_arrow_1.get_y(), 0])
+
+            pivot_arrow_2.put_start_and_end_on(start=[arr[l_idx].get_x(), pivot_arrow_2.get_y(), 0], end=pivot_arrow_2.get_end())
+            #--------/Visuals--------
+
+            # Check if l_idx isn't pointing at pivot's position
+            if l_idx != high:
+                #--------Visuals--------
+                self.play(Write(pivot_arrow_1), Write(pivot_arrow_2),Write(pivot_arrow_3), run_time=0.13)
+                self.wait(0.5)
+                swap(arr[l_idx],arr[high],self,0.1)
+                #--------/Visuals--------
+
+                # Bring back the pivot to its correct and final position.
+                arr[l_idx] , arr[high] = arr[high], arr[l_idx]
+            
+            #--------Visuals--------
+            self.play(Unwrite(pivot_title),Unwrite(pivot_arrow_1), Unwrite(pivot_arrow_2),Unwrite(pivot_arrow_3),arr[l_idx].animate.set_fill(GREEN), run_time=0.13)
+            #--------/Visuals--------
+
+            # Deallocate memory
+            pivot_title = pivot_arrow_1 = pivot_arrow_2 = pivot_arrow_3 = None
+            del pivot_title
+            del pivot_arrow_1
+            del pivot_arrow_2
+            del pivot_arrow_3
+
+            return l_idx
+
+
+        def quick_sort(arr, low, high):
+            if low < high:
+                # Split array into two sub-arrays with the partition_index beng an item at its final correct position
+                partition_index = partition(arr, low, high)
+
+                # Recursively run the algorithm on each of the two sub-arrays
+                quick_sort(arr, low, partition_index - 1)
+                quick_sort(arr, partition_index + 1, high)
+
+        
+        quick_sort(array, 0, len(array) - 1)
         # Create a new Vector group of the now ordered elements to play a staggered animation
         ordered_group = VGroup(*array)
         self.play(ordered_group.animate(lag_ratio=0.2).set_color(GREEN))
