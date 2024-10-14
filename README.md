@@ -123,7 +123,7 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 ##### Time Complexity: $O(n \log(n))$
 ##### Space Complexity: $O(\log(n))$ (Average Case)
 
-
+https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 
 #### Explantion:
 1. Choose the `Pivot`:<br>To choose the pivot the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.
@@ -131,6 +131,8 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 2. Move `Pivot` to the end of the array and initialize `l_idx` and `r_idx`.
 ![][ptep]
 3. The two pointers `l_idx` and `r_idx` will traverse through the array from left and from right until a value (at each respective index) greater than the `Pivot` and smaller than the `Pivot` is found. Then the two elements at `l_idx` and `r_idx` are exchanged.
+
+
 ![][pe]
 4. Repeat the previous step until `l_idx` is greater than `r_idx`.
 ![][pc]
