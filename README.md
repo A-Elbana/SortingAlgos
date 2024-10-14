@@ -98,7 +98,9 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 ##### Time Complexity: $O(n^2)$
 ##### Space Complexity: $O(1)$
 
-https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
+
+https://github.com/user-attachments/assets/e81deff2-9268-4e58-8e9f-0c057e96b832
+
 
 ### Explanation:
 
