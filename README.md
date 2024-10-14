@@ -67,12 +67,13 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
   
 <a id="installation"></a>
 <a id="readme-top"></a>
+
 ### Installation and Usage
 
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/A-Elbana/SortingAlgos
    ```
 2. Make sure manim is properly installed by running the following command in your terminal:
    ```sh
@@ -93,53 +94,86 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 <!-- VISUALIZATIONS -->
 ## Visualizations
 
-### Bubble Sort
+## Bubble Sort
 ##### Time Complexity: $O(n^2)$
 ##### Space Complexity: $O(1)$
 
 https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 
+### Explanation:
+
+1. Start from the beginning of the array.
+
+2. Compare the <span style="color:red">current element</span> with the <span style="color:red">next element</span>.
+
+3. If the current element is greater than the next element, swap them.![][SB]
+
+4. Continue this process until the end of the array is reached.
+
+5. After one pass, the largest element will be at the end of the array. Repeat the process for the remaining unsorted elements.![][FP]
+
 ---
 
-### Selection Sort
+## Selection Sort
 ##### Time Complexity: $O(n^2)$
 ##### Space Complexity: $O(1)$
 
 https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
+### Explanation:
+
+1. Start from the beginning of the array.
+![][begin]
+
+2. Traverse the following elements. (<span style="color:#F4D345">Yellow</span> Indicator)
+
+3. Keep track of the minimum element encountered so far. (Marked in <span style="color:red">red</span>)
+![][MSF]
+
+4. After traversing through all of the unsorted portion, swap the found minimum element with the first element of the unsorted portion.![][SM]
+
+
+5. Repeat the process for the remaining unsorted portion of the array.
 
 ---
 
-### Merge Sort
+## Merge Sort
 ##### Time Complexity: $O(n \log(n))$
-##### Space Complexity: $O(n)$ 
+##### Space Complexity: $O(n)$
+##### Methodology: $Divide \ and \ Conquer$ (Bottom-Top)
 
 https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
+### Explanation:
+
+1. Divide the list or array recursively into two halves until it can't be divided anymore.
+2. Recursively sort each half using merge sort. (Using an auxillary array and by comparing elements from each half)
+![][SortSub]
+
+3. If the array contains only one element, it is already sorted. (Base Case)
+4. Merge the sorted halves back together into a single sorted array.
+![][Merge]
+
+5. Repeat steps 1-4 until the entire array is sorted.
+
 
 ---
 
-### Quick Sort
+## Quick Sort
 ##### Time Complexity: $O(n \log(n))$
 ##### Space Complexity: $O(\log(n))$ (Average Case)
+##### Methodology: $Divide \ and \ Conquer$ (Top-Bottom)
 
 https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 
-#### Explanation:
-1. Choose the `Pivot`:<br>To choose the pivot the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.
-![][medianofthree]
-2. Move `Pivot` to the end of the array and initialize `l_idx` and `r_idx`.
-![][ptep]
-3. The two pointers `l_idx` and `r_idx` will traverse through the array from left and from right until a value (at each respective index) greater than the `Pivot` and smaller than the `Pivot` is found. Then the two elements at `l_idx` and `r_idx` are exchanged.
+### Explanation:
+1. Choose the <span style="color:#F4D345">`Pivot`</span>:<br>To choose the pivot, the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.![][medianofthree]
+2. Move <span style="color:#F4D345">`Pivot`</span> to the end of the array and initialize <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span>.![][ptep]
+3. The two pointers <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> will traverse through the array from left and from right until a value (at each respective index) greater than the <span style="color:#F4D345">`Pivot`</span> and smaller than the <span style="color:#F4D345">`Pivot`</span> is found. Then the two elements at <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> are exchanged.![][pe]
+4. Repeat the previous step until <span style="color:#58C4DD">`l_idx`</span> is greater than <span style="color:red">`r_idx`</span>.![][pc]
+5. Exchange element at <span style="color:#58C4DD">`l_idx`</span> (greater than pivot) with the pivot (which is at the end of the array).![][ptf]
+6. Now the <span style="color:#F4D345">`Pivot`</span> is in its <span style="color:green">correct and final</span> position in the main array. Repeat steps `1-5` on the generated sub-arrays until sorted.![][Rec]
 
-
-![][pe]
-4. Repeat the previous step until `l_idx` is greater than `r_idx`.
-![][pc]
-5. Exchange element at `l_idx` (greater than pivot) with the pivot (which is at the end of the array)
-![][ptf]
-6. Now the pivot is its correct and final position in the main array. Repeat steps `1-5` on the generated sub-arrays until sorted.
-![][Rec]
 
 
 
@@ -168,8 +202,6 @@ Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-El
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 [forks-shield]: https://img.shields.io/github/forks/A-Elbana/SortingAlgos.svg?style=for-the-badge
 [forks-url]: https://github.com/A-Elbana/SortingAlgos/network/members
 [stars-shield]: https://img.shields.io/github/stars/A-Elbana/SortingAlgos.svg?style=for-the-badge
@@ -178,9 +210,16 @@ Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-El
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/abdelrahmanwisam/
 [product-screenshot]: images/cover.png
-[medianofthree]: images/median-of-three.svg
-[ptep]: images/PivotToEnd-Pointers.png
-[ptf]: images/PivotToFinalPosition.png
-[pc]: images/Pointers-Cross.png
-[pe]: images/Pointers-Exchange.png
-[Rec]: images/Recursion.svg
+[medianofthree]: images/QuickSort/median-of-three.svg
+[ptep]: images/QuickSort/PivotToEnd-Pointers.png
+[ptf]: images/QuickSort/PivotToFinalPosition.png
+[pc]: images/QuickSort/Pointers-Cross.png
+[pe]: images/QuickSort/Pointers-Exchange.png
+[Rec]: images/QuickSort/Recursion.svg
+[FP]: images/BubbleSort/FirstPass.png
+[SB]: images/BubbleSort/SwapBigger.png
+[Begin]: images/SelectionSort/Begin.png
+[MSF]: images/SelectionSort/MinSoFar.png
+[SM]: images/SelectionSort/SwapMin.png
+[Merge]: images/MergeSort/Merge.png
+[SortSub]: images/MergeSort/SortSub.png
