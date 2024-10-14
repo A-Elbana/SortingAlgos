@@ -125,7 +125,7 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
 
 
-#### Explantion:
+#### Explanation:
 1. Choose the `Pivot`:<br>To choose the pivot the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.
 ![][medianofthree]
 2. Move `Pivot` to the end of the array and initialize `l_idx` and `r_idx`.
