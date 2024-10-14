@@ -95,6 +95,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 
 ### Bubble Sort
 ##### Time Complexity: $O(n^2)$
+##### Space Complexity: $O(1)$
 
 https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 
@@ -102,6 +103,7 @@ https://github.com/user-attachments/assets/febdc27f-0c52-4d4c-b51f-27345303b398
 
 ### Selection Sort
 ##### Time Complexity: $O(n^2)$
+##### Space Complexity: $O(1)$
 
 https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
@@ -110,6 +112,7 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
 ### Merge Sort
 ##### Time Complexity: $O(n \log(n))$
+##### Space Complexity: $O(n)$ 
 
 https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
@@ -118,8 +121,24 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
 ### Quick Sort
 ##### Time Complexity: $O(n \log(n))$
+##### Space Complexity: $O(\log(n))$ (Average Case)
 
-https://github.com/user-attachments/assets/2ce3bd9f-3a1e-42d4-b48a-f03219fbdc58
+
+
+#### Explantion:
+1. Choose the `Pivot`:<br>To choose the pivot the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.
+![][medianofthree]
+2. Move `Pivot` to the end of the array and initialize `l_idx` and `r_idx`.
+![][ptep]
+3. The two pointers `l_idx` and `r_idx` will traverse through the array from left and from right until a value (at each respective index) greater than the `Pivot` and smaller than the `Pivot` is found. Then the two elements at `l_idx` and `r_idx` are exchanged.
+![][pe]
+4. Repeat the previous step until `l_idx` is greater than `r_idx`.
+![][pc]
+5. Exchange element at `l_idx` (greater than pivot) with the pivot (which is at the end of the array)
+![][ptf]
+6. Now the pivot is its correct and final position in the main array. Repeat steps `1-5` on the generated sub-arrays until sorted.
+![][Rec]
+
 
 
 
@@ -156,4 +175,10 @@ Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-El
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/abdelrahmanwisam/
-[product-screenshot]: cover.png
+[product-screenshot]: images/cover.png
+[medianofthree]: images/median-of-three.svg
+[ptep]: images/PivotToEnd-Pointers.png
+[ptf]: images/PivotToFinalPosition.png
+[pc]: images/Pointers-Cross.png
+[pe]: images/Pointers-Exchange.png
+[Rec]: images/Recursion.svg

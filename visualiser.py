@@ -30,10 +30,9 @@ class RNGenerator:
 
 
 def generateName():
-    name = Tex("By Abdelrahman Elbana", font_size=50).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
-    githubName = Tex("Github: A-Elbana", font_size=40).next_to(name,DOWN).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
+    githubName = Tex("Github: A-Elbana/SortingAlgos", font_size=38).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
 
-    return name, githubName
+    return githubName
 
 
 class BubbleSort(Scene):
@@ -51,9 +50,9 @@ class BubbleSort(Scene):
         text = Tex(r"Bubble Sort $O(n^2)$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Name
-        name, githubName = generateName()
-        self.play(Write(name),Write(githubName))
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -113,13 +112,13 @@ class SelectionSort(Scene):
         # Get bar width relative to frame size
         bar_width = (self.camera.frame_width - shifting * n - 3) / (n)
 
-        # Generate Name
+        # Generate Title
         text = Tex(r"Selection Sort $O(n^2)$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Name
-        name, githubName = generateName()
-        self.play(Write(name),Write(githubName))
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -201,9 +200,9 @@ class MergeSort(Scene):
         text = Tex(r"Merge Sort $O(n \log(n))$", font_size=55).to_edge(DOWN)
         self.play(Write(text))
 
-        # Generate Name
-        name, githubName = generateName()
-        self.play(Write(name),Write(githubName))
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -328,9 +327,9 @@ class QuickSort(Scene):
         title = Tex(r"Quick Sort $O(n \log(n))$", font_size=55).to_edge(DOWN)
         self.play(Write(title))
 
-        # Generate Name
-        name, githubName = generateName()
-        self.play(Write(name),Write(githubName))
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName))
 
         # Setup bar for each element
         array=[Rectangle(width=bar_width) for _ in range(n)]
@@ -356,8 +355,19 @@ class QuickSort(Scene):
         # # Run Quick Sort
         def partition(arr:list[Rectangle], low:int, high:int):
             # Choose pivot using the median-of-three method
-            pivot_pos = sorted([(arr[low].height,low),(arr[(high+1+low)//2].height, (high+1+low)//2), (arr[high].height, high)], key=lambda x: x[0])[1][1]
+            helper = [ low, (high+low+1) // 2, high]
+            medianOfThree = [arr[low].height,arr[(high+1+low)//2].height, arr[high].height]
+
+            # Use unrolled Bubble Sort to sort the array
+            for i in range(2):
+                for j in range(2-i):
+                    if medianOfThree[j] > medianOfThree[j+1]:
+                        medianOfThree[j], medianOfThree[j+1] = medianOfThree[j+1], medianOfThree[j]
+                        arr[helper[j]], arr[helper[j+1]] = arr[helper[j+1]], arr[helper[j]]
+                        swap(arr[helper[j]], arr[helper[j+1]], self, 0.1)
+            self.wait(0.5)
             
+            pivot_pos = (high+1+low)//2
             # Setup pointers used to parse and arrange array into two sub-arrays (Greater than pivot and smaller than pivot)
             l_idx = low
             l_idx_indicator = VGroup()
@@ -373,7 +383,7 @@ class QuickSort(Scene):
             
 
             #--------Visuals--------
-            # Title used to indicate where the pivot is located
+            # Label used to indicate where the pivot is located
             pivot_title = Text("Pivot",font_size=25).move_to(arr[pivot_pos].get_bottom() + 0.4*DOWN)
             self.play(arr[pivot_pos].animate.set_fill(YELLOW_D), Write(pivot_title), run_time=0.15)
             self.wait(0.5)
@@ -385,12 +395,12 @@ class QuickSort(Scene):
                 pivot_title.animate.shift(pj1-pj),
                 run_time = 0.5
             )
-             #--------/Visuals--------
+            #--------/Visuals--------
             
             # Move pivot to the end of the array
             arr[high], arr[pivot_pos] = arr[pivot_pos], arr[high] # pivot = arr[high]
 
-             #--------Visuals--------
+            #--------Visuals--------
             pivot_arrow_1 = Arrow(start= arr[l_idx].get_bottom() + 1.3*DOWN, end=arr[l_idx].get_bottom(), color=WHITE,buff=0).align_to(pivot_title.get_center(), UP)
 
             pivot_arrow_2 = Arrow(start= pivot_arrow_1.get_start(), end=[pivot_title.get_x(),pivot_arrow_1.get_bottom()[1],pivot_arrow_1.get_z()],stroke_width=6,max_stroke_width_to_length_ratio=float('inf'), color=WHITE,buff=0, max_tip_length_to_length_ratio=0)
