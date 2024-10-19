@@ -234,7 +234,7 @@ Linkedin: https://www.linkedin.com/in/abdelrahmanwisam/
 [linkedin-url]: https://www.linkedin.com/in/abdelrahmanwisam/
 [product-screenshot]: images/cover.png
 [medianofthree]: images/QuickSort/median-of-three.svg
-[ptep]: images/QuickSort/PivotToEnd-Pointers.png
+[ptep]: <img src="images/QuickSort/PivotToEnd-Pointers.png" alt="QuickSort PivotToEnd Pointers" width="100">
 [ptf]: images/QuickSort/PivotToFinalPosition.png
 [pc]: images/QuickSort/Pointers-Cross.png
 [pe]: images/QuickSort/Pointers-Exchange.png
