@@ -1,6 +1,8 @@
 from manim import *
 import random
 N = 30 # Number of elements
+N_RADIX = 10 # Number of elements in Radix Sort
+DIGITS_RADIX = 3 # Maximum Number in Radix Sort (Max is 3 for visualization Purposes)
 
 class RNGenerator:
     
@@ -97,7 +99,7 @@ class BubbleSort(Scene):
         
         # Create a new Vector group of the now ordered elements to play a staggered animation
         ordered_group = VGroup(*array)
-        self.play(ordered_group.animate(lag_ratio=0.3).set_fill(GREEN), ordered_group.animate(lag_ratio=0.5).set_color(GREEN))
+        self.play(ordered_group.animate(lag_ratio=0.3).set_fill(GREEN), ordered_group.animate(lag_ratio=0.3).set_color(GREEN))
         self.wait(5)
 
 
@@ -169,16 +171,16 @@ class SelectionSort(Scene):
 
 
 
-def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, sim_anim = []):
+def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, **kwargs):
     # Switch positions visually
-    if a.height != b.height:
+    radix = kwargs.get("radix") or False
+    if (a.height != b.height) or radix:
         # Make sure we are not switching the same bar. (Example: When our new bar position is not changed)
         pj = a.get_bottom()
         pj1 = b.get_bottom()
         scene.play(
             a.animate.shift(pj1-pj),
             b.animate.shift(pj-pj1),
-            *sim_anim,
             run_time = run_time
         )
 
@@ -498,4 +500,146 @@ class QuickSort(Scene):
         # Create a new Vector group of the now ordered elements to play a staggered animation
         ordered_group = VGroup(*array)
         self.play(ordered_group.animate(lag_ratio=0.2).set_color(GREEN))
+        self.wait(5)
+
+
+from collections import defaultdict
+
+class RadixSort(Scene):
+    """Manim Scene Class
+    """
+    def construct(self):
+        n = N_RADIX
+        max_num = (10**DIGITS_RADIX) - 1
+        rn = RNGenerator(max_num) # Generator object
+        box_width = (self.camera.frame_width - 3) / (10 if n <= 10 else n)
+
+        # Generate Title
+        text = Tex(r"Radix Sort $O(n * d)$", font_size=55).to_edge(DOWN)
+        self.play(Write(text))
+
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName))
+
+
+        # Setup box for each element and buckets
+        array=[Rectangle(width=box_width, height=box_width) for _ in range(n)]
+
+        positions = defaultdict(int) # Hashmap to help speed up the lookup process of the indices of each number
+
+        for i in range(len(array)):
+            rn_num = rn.next()
+            number = Tex(*[a for a in str(rn_num)]).scale_to_fit_height(box_width - 0.6 * box_width)
+            number.move_to(array[i])
+            array[i] = VGroup(array[i], number)
+
+            # Shift box to the right of the previous element
+            array[i].shift(RIGHT*(box_width)*i)
+            positions[rn_num] = i # Input numbers' positions in hashmap/dict
+
+            # Align the bottom edge of each box
+            array[i].align_to((0,0,0),DOWN)
+        group=VGroup(*array)
+        group.move_to(ORIGIN)
+        self.play(Write(group))
+        self.play(group.animate.to_edge(UL).scale(0.8), githubName.animate.scale(0.75).to_corner(DR,buff=0.25), Unwrite(text))
+        
+        # Create Buckets
+        bucket_width = 0.8 * (self.camera.frame_width - 3) / (10)
+        buckets=[Rectangle(width=bucket_width, height=bucket_width).set_color(BLUE_E).set_fill(BLUE_E, opacity=1) for _ in range(10)]
+
+        # Scale and Order Buckets
+        for i in range(10):
+            number = Tex(f"${i}$").scale_to_fit_height(bucket_width - 0.5 * bucket_width)
+            number.move_to(buckets[i])
+            buckets[i] = VGroup(buckets[i], number)
+            buckets[i].shift(DOWN*(bucket_width+0.3)*(i%5))
+            
+            # Align the left edge of each bucket
+            buckets[i].align_to((0,0,0),LEFT)
+
+            # Move bucket to new column if it is greater than 4
+            if i > 4:
+                buckets[i].align_to(((self.camera.frame_width - bucket_width) / 2 ,0,0),LEFT)
+        b_group=VGroup(*buckets)
+        # Move Buckets to bottom-left corner
+        b_group.to_corner(DL)
+        self.play(Write(b_group))
+        #/Setup
+
+
+        # Run Radix Sort
+
+        # Loop through the number of digits
+        for d in range(DIGITS_RADIX):
+            # Hashmap to keep track of elements in each bucket
+            buckets_map = defaultdict(deque)
+            # Loop through each element
+            for i in range(len(array)):
+                number = int(array[i][1].tex_string)
+
+                # Get corresponding Bucket (By Extracting d'th digit)
+                b_index = number % (10**(d+1)) // (10**d)
+
+                
+
+                # Copy Element for visualisation purposes
+                copy_rect = array[i].copy()
+
+                
+                
+                
+                # Add element to bucket
+                buckets_map[b_index].append(copy_rect)
+
+                #--------Visuals--------
+                digit_highlight = None
+                try:
+                    digit_highlight = copy_rect[1][-(1+d)]
+                    self.play(digit_highlight.animate.set_color(GREEN), run_time=0.2)
+                    self.play(VGroup(* buckets_map[b_index]).animate.arrange().next_to(buckets[b_index]) )
+                except:
+                    self.play(VGroup(* buckets_map[b_index]).animate.arrange().next_to(buckets[b_index]) )
+                    
+                
+                
+                #--------/Visuals--------
+            
+            # Initialize a Swap Pointer (This part could be implemented in many different ways)
+            swap_pointer = 0
+            for n in range(10):
+                self.play(buckets[n][0].animate.set_color(GREEN), run_time=0.15)
+                for element in list(buckets_map[n]):
+                    # Extract number from Mobject
+                    number = int(element[1].tex_string)
+                    # Get number's current position from hashmap
+                    num_index = positions[number]
+                    # Get number-to-be-replaced's current position from hashmap
+                    num_2 = int(array[swap_pointer][1].tex_string)
+
+                    # Swap positions
+                    array[num_index], array[swap_pointer] = array[swap_pointer], array[num_index]
+                    
+                    #--------Visuals--------
+                    
+                    swap(array[num_index], array[swap_pointer], self, 0.3, radix = True)
+                    self.play(Unwrite(element),array[swap_pointer].animate.set_color(BLUE), run_time=0.1)
+                    
+                    #--------/Visuals--------
+
+                    # Update positions in hashmap
+                    positions[num_2] = positions[number]
+                    positions[number] = swap_pointer
+
+                    # Increment Pointer
+                    swap_pointer += 1
+                self.play(buckets[n][0].animate.set_color(BLUE_E), run_time=0.15)
+            self.play(group.animate.set_color(WHITE), run_time=0.2)
+        # Create a new Vector group of the now ordered elements to play a staggered animation
+        ordered_group = VGroup(*array)
+        self.play(Unwrite(b_group),run_time=0.1)
+        self.play(ordered_group.animate.move_to(ORIGIN).scale(1.25))
+        self.play(githubName.animate.scale(1/0.75 +0.2).next_to(ordered_group, UP), Write(Tex(r"Radix Sort $O(n * d)$", font_size=55).next_to(ordered_group, DOWN)))
+        self.play(ordered_group.animate(lag_ratio=0.3).set_fill(GREEN).set_color(GREEN))
         self.wait(5)

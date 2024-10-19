@@ -177,6 +177,23 @@ https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 6. Now the <span style="color:#F4D345">`Pivot`</span> is in its <span style="color:green">correct and final</span> position in the main array. Repeat steps `1-5` on the generated sub-arrays until sorted.![][Rec]
 
 
+---
+
+## Radix Sort
+##### Time Complexity: $O(n * d)$
+##### Space Complexity: $O(n)$ (For visualization purposes. It can be implemented more efficiently.) [Example](https://stackoverflow.com/questions/43587853/duplicate-removal/43588349#answer-43588349)
+
+
+
+
+### Explanation:
+1. Determine the maximum number of `digits` (Predefined in `DIGITS_RADIX`)
+2. Create buckets (According to the `base` used)
+3. Distribute elements based on n-th digit
+4. Collect elements (Resort the array according to buckets' arrangement)
+6. Repeat steps `3-4` for each digit until sorted.
+
+
 
 
 
@@ -190,6 +207,8 @@ https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 Abdelrahman Elbana - manelbana079@gmail.com
 
 Project Link: [https://github.com/A-Elbana/SortingAlgos](https://github.com/A-Elbana/SortingAlgos)
+
+Linkedin: https://www.linkedin.com/in/abdelrahmanwisam/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
