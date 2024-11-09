@@ -86,6 +86,17 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
    This will render a video in 1080p60. For lower quality use the `-pql` flag.<br>
    For available `{AlgorithmName}` refer to the table below.
 
+#### Here's a list of all the algorithms currently available. 
+>Feel free to open an issue to suggest new algorithms to add!
+
+| Algorithm        | `{AlgorithmName}`|
+|:-------------:|:-------------:|
+| Bubble Sort| `BubbleSort` |
+| Selection Sort| `SelectionSort` |
+| Merge Sort| `MergeSort` |
+| Quick Sort| `QuickSort` |
+| Radix Sort| `RadixSort` |
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -170,7 +181,7 @@ https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 
 ### Explanation:
 1. Choose the <span style="color:#F4D345">`Pivot`</span>:<br>To choose the pivot, the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.![][medianofthree]
-2. Move <span style="color:#F4D345">`Pivot`</span> to the end of the array and initialize <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span>.<img src="images/QuickSort/PivotToEnd-Pointers.png" alt="QuickSort PivotToEnd Pointers" width="100"/>
+2. Move <span style="color:#F4D345">`Pivot`</span> to the end of the array and initialize <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span>.<br><img src="images/QuickSort/PivotToEnd-Pointers.png" alt="QuickSort PivotToEnd Pointers" height="200"/>
 3. The two pointers <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> will traverse through the array from left and from right until a value (at each respective index) greater than the <span style="color:#F4D345">`Pivot`</span> and smaller than the <span style="color:#F4D345">`Pivot`</span> is found. Then the two elements at <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> are exchanged.![][pe]
 4. Repeat the previous step until <span style="color:#58C4DD">`l_idx`</span> is greater than <span style="color:red">`r_idx`</span>.![][pc]
 5. Exchange element at <span style="color:#58C4DD">`l_idx`</span> (greater than pivot) with the pivot (which is at the end of the array).![][ptf]

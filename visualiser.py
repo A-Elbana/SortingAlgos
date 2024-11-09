@@ -1,5 +1,9 @@
 from manim import *
 import random
+
+# Import the double-ended queue data structure
+from collections import deque, defaultdict
+
 N = 30 # Number of elements
 N_RADIX = 10 # Number of elements in Radix Sort
 DIGITS_RADIX = 3 # Maximum Number in Radix Sort (Max is 3 for visualization Purposes)
@@ -36,6 +40,18 @@ def generateName():
 
     return githubName
 
+def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, **kwargs):
+    # Switch positions visually
+    radix = kwargs.get("radix") or False
+    if (a.height != b.height) or radix:
+        # Make sure we are not switching the same bar. (Example: When our new bar position is not changed)
+        pj = a.get_bottom()
+        pj1 = b.get_bottom()
+        scene.play(
+            a.animate.shift(pj1-pj),
+            b.animate.shift(pj-pj1),
+            run_time = run_time
+        )
 
 class BubbleSort(Scene):
     """Manim Scene Class
@@ -171,21 +187,9 @@ class SelectionSort(Scene):
 
 
 
-def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, **kwargs):
-    # Switch positions visually
-    radix = kwargs.get("radix") or False
-    if (a.height != b.height) or radix:
-        # Make sure we are not switching the same bar. (Example: When our new bar position is not changed)
-        pj = a.get_bottom()
-        pj1 = b.get_bottom()
-        scene.play(
-            a.animate.shift(pj1-pj),
-            b.animate.shift(pj-pj1),
-            run_time = run_time
-        )
 
-# Import the double-ended queue data structure
-from collections import deque
+
+
 
 class MergeSort(Scene):
     """Manim Scene Class
@@ -503,7 +507,7 @@ class QuickSort(Scene):
         self.wait(5)
 
 
-from collections import defaultdict
+
 
 class RadixSort(Scene):
     """Manim Scene Class
