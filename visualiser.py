@@ -4,9 +4,7 @@ import random
 # Import the double-ended queue data structure
 from collections import deque, defaultdict
 
-N = 30 # Number of elements
-N_RADIX = 10 # Number of elements in Radix Sort
-DIGITS_RADIX = 3 # Maximum Number in Radix Sort (Max is 3 for visualization Purposes)
+import constants
 
 class RNGenerator:
     
@@ -57,7 +55,7 @@ class BubbleSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=N # Number of elements
+        n=constants.N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -123,7 +121,7 @@ class SelectionSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=N # Number of elements
+        n=constants.N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -195,7 +193,7 @@ class MergeSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=N # Number of elements
+        n=constants.N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -322,7 +320,7 @@ class QuickSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n=N # Number of elements
+        n=constants.N # Number of elements
         rn = RNGenerator(n) # Generator object
         shifting = 0.1 # Padding between bars
 
@@ -513,8 +511,8 @@ class RadixSort(Scene):
     """Manim Scene Class
     """
     def construct(self):
-        n = N_RADIX
-        max_num = (10**DIGITS_RADIX) - 1
+        n = constants.N_RADIX
+        max_num = (10**constants.DIGITS_RADIX) - 1
         rn = RNGenerator(max_num) # Generator object
         box_width = (self.camera.frame_width - 3) / (10 if n <= 10 else n)
 
@@ -576,7 +574,7 @@ class RadixSort(Scene):
         # Run Radix Sort
 
         # Loop through the number of digits
-        for d in range(DIGITS_RADIX):
+        for d in range(constants.DIGITS_RADIX):
             # Hashmap to keep track of elements in each bucket
             buckets_map = defaultdict(deque)
             # Loop through each element
