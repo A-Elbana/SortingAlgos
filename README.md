@@ -25,10 +25,10 @@
         <li><a href="#installation and usage">Installation and Usage</a></li>
       </ul>
     </li>
-    <li><a href="#objective">Objective</a></li>
     <li><a href="#Visualizations">Visualizations</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#disclaimer">Disclaimer</a></li>
     
   </ol>
 </details>
@@ -192,7 +192,7 @@ https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
 
 ## Radix Sort
 ##### Time Complexity: $O(n * d)$
-##### Space Complexity: $O(n)$ (For visualization purposes. It can be implemented more efficiently.) [Example](https://stackoverflow.com/questions/43587853/duplicate-removal/43588349#answer-43588349)
+##### Space Complexity: $O(n+k)$ (For visualization purposes. However, it can be implemented more efficiently. Refer to [this example](https://stackoverflow.com/questions/43587853/duplicate-removal/43588349#answer-43588349)) 
 
 
 https://github.com/user-attachments/assets/dcc503cc-9bf6-49a3-b6d4-56233a762f56
@@ -233,6 +233,14 @@ Linkedin: https://www.linkedin.com/in/abdelrahmanwisam/
 * [Geeksforgeeks - Bubble Sort Algorithm](https://www.geeksforgeeks.org/bubble-sort-algorithm/)
 * [Merge Sort Explanation](https://www.youtube.com/watch?v=4VqmGXwpLqc)
 * [Selection Sort Explanation](https://youtu.be/g-PGLbMth_g?si=2WM32az9L8182Ksy)
+* [Quick Sort Explanation](https://www.youtube.com/watch?v=Hoixgm4-P4M)
+* [CS Dojo - Radix Sort Explanation](https://www.youtube.com/watch?v=XiuSW_mEn7g)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Disclaimer -->
+## Disclaimer
+While this visualization tool demonstrates the steps involved in each sorting algorithm, the actual time taken for the animation to complete should not be considered a direct measure of the algorithm's performance. Some algorithms may have visually longer or more complex animations, which can affect the perceived execution time. For a true performance comparison, refer to the provided metrics based on computational complexity and operations count, not animation duration.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
