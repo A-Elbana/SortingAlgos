@@ -1,48 +1,19 @@
-from manim import *
-import random
+from manim import Rectangle, Tex, Scene, Write, UP, DR, UL, DL, LEFT, GREEN, DARK_BLUE, ORIGIN, RIGHT, VGroup, RED, YELLOW_D, Unwrite, BLUE, BLUE_B, BLUE_E, Arrow, DOWN, WHITE, Text
 
-# Import the double-ended queue data structure
+# Import the double-ended queue
 from collections import deque, defaultdict
 
+from classes import Element, RNGenerator
 import constants
 
-class RNGenerator:
-    
-    used_numbers = set()
-    def __init__(self, max_value) -> None:
-        """Generator class
-
-        Usage
-        -
-            Helps to iteratively generate a unique random number.
-        """
-        # Set max value of generator
-        self.max_value = max_value
-        pass
-
-    def next(self) -> int:
-        """Generates next unique random number.
-
-        Returns:
-            `int`: A unique random number.
-        """
-        while len(self.used_numbers) < self.max_value:
-            random_number = random.randint(1,self.max_value)
-            if random_number not in self.used_numbers:
-                self.used_numbers.add(random_number)
-                return random_number
-
-
 def generateName():
-    githubName = Tex("Github: A-Elbana/SortingAlgos", font_size=38).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
+    return Tex("Github: A-Elbana/SortingAlgos", font_size=38).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
 
-    return githubName
-
-def swap(a:Rectangle,b:Rectangle,scene, run_time = 0.07, **kwargs):
+def swap(a:Element,b:Element,scene, run_time = 0.07, **kwargs):
     # Switch positions visually
     radix = kwargs.get("radix") or False
-    if (a.height != b.height) or radix:
-        # Make sure we are not switching the same bar. (Example: When our new bar position is not changed)
+    if (a != b) or radix:
+        # Make sure we are not switching the same bar. (Example: When our new bar position is the same as the old one)
         pj = a.get_bottom()
         pj1 = b.get_bottom()
         scene.play(
@@ -71,7 +42,7 @@ class BubbleSort(Scene):
         self.play(Write(githubName))
 
         # Setup bar for each element
-        array=[Rectangle(width=bar_width) for _ in range(n)]
+        array=[Element(idx, bar_width) for idx in range(n)]
         for i in range (0, n):
             # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
             array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.5)
@@ -90,17 +61,11 @@ class BubbleSort(Scene):
         # Run Bubble Sort
         for i in range(n):
             for j in range(n-i-1):
-                if array[j].height>array[j+1].height:
+                if array[j]>array[j+1]:
                     # Highlight elements being processed
                     self.play(array[j].animate.set_fill(RED), array[j+1].animate.set_fill(RED),array[j].animate.set_color(RED), array[j+1].animate.set_color(RED), run_time = 0.1)
 
-                    pj = array[j].get_bottom()
-                    pj1 = array[j+1].get_bottom()
-                    # Switch positions visually
-                    self.play(
-                        array[j].animate.shift(pj1-pj),
-                        array[j+1].animate.shift(pj-pj1), run_time = 0.07
-                    )
+                    swap(array[j], array[j+1], self)
                     # Swap array positions
                     array[j], array[j+1] = array[j+1], array[j]
 
@@ -137,7 +102,7 @@ class SelectionSort(Scene):
         self.play(Write(githubName))
 
         # Setup bar for each element
-        array=[Rectangle(width=bar_width) for _ in range(n)]
+        array=[Element(idx, bar_width) for idx in range(n)]
         for i in range (0, n):
             # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
             array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.5)
@@ -160,20 +125,14 @@ class SelectionSort(Scene):
             for j in range(i+1, n):
                 curr_item = j
                 self.play(array[curr_item].animate.set_fill(YELLOW_D), run_time = 0.07)
-                if array[curr_item].height < array[curr_min].height:
+                if array[curr_item] < array[curr_min]:
                     self.play(array[curr_min].animate.set_fill(WHITE), array[curr_min].animate.set_color(WHITE), run_time = 0.1)
                     curr_min = curr_item
                     self.play(array[curr_min].animate.set_fill(RED), run_time = 0.1)
                     continue
                 self.play(array[curr_item].animate.set_fill(WHITE), array[curr_item].animate.set_color(WHITE), run_time = 0.07)
             
-            pj = array[i].get_bottom()
-            pj1 = array[curr_min].get_bottom()
-            # Switch positions visually
-            self.play(
-                array[i].animate.shift(pj1-pj),
-                array[curr_min].animate.shift(pj-pj1), run_time = 0.07
-            )
+            swap(array[i], array[curr_min], self)
             array[i], array[curr_min] = array[curr_min], array[i]
             self.play(array[i].animate.set_fill(GREEN), run_time = 0.07)
         
@@ -209,7 +168,7 @@ class MergeSort(Scene):
         self.play(Write(githubName))
 
         # Setup bar for each element
-        array=[Rectangle(width=bar_width) for _ in range(n)]
+        array=[Element(idx, bar_width) for idx in range(n)]
         for i in range (0, n):
             # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
             array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.5)
@@ -223,78 +182,89 @@ class MergeSort(Scene):
         group.move_to(ORIGIN)
         group.set_fill(WHITE,opacity=1)
         self.play(*[Write(o) for o in array])
-        arraydict = {obj.height:index for index, obj in enumerate(array)} # This will help us retrieve current position by only using the onjects height
+        
         # /Setup
 
         # Run Merge Sort
         
-        def merge(a:deque[Rectangle],b:deque[Rectangle]):
+        def merge(a:deque[Element],b:deque[Element]):
             merged = deque([])
             
+            #--------Visuals--------
             c = list(a+b)
-            curr_pos = n + 1
-            for item in c:
-                curr_pos = min(arraydict[item.height], curr_pos)
+            curr_pos = a[0].index
             mergedVGroup = VGroup(*c)
             self.play(mergedVGroup.animate.set_fill(BLUE), run_time=0.1)
+            #--------/Visuals--------
+
             while a and b:
-                self.play(b[0].animate.set_fill(RED),a[0].animate.set_fill(RED), run_time=0.1)
+                self.play(b[0].animate.set_fill(RED),a[0].animate.set_fill(RED), run_time=0.1) #--------Visuals/--------
                 if a[0].height < b[0].height:
-                    swap(array[curr_pos], array[arraydict[a[0].height]], self)
+                    #--------Visuals--------
+                    swap(array[curr_pos], array[a[0].index], self)
                     
                     # Update dictionary by switching indices
-                    arraydict[a[0].height], arraydict[array[curr_pos].height] =  arraydict[array[curr_pos].height], arraydict[a[0].height]
+                    a[0].index, array[curr_pos].index =  array[curr_pos].index, a[0].index
 
                     # Update bars array by switching indices
-                    array[arraydict[array[curr_pos].height]], array[arraydict[a[0].height]] = array[arraydict[a[0].height]], array[arraydict[array[curr_pos].height]]
+                    array[array[curr_pos].index], array[a[0].index] = array[a[0].index], array[array[curr_pos].index]
+                    
 
                     # Traverse to next bar position
                     curr_pos += 1
-                    merged.append(a[0])
                     self.play(b[0].animate.set_fill(BLUE),a[0].animate.set_fill(BLUE), run_time=0.1)
+                    #--------/Visuals--------
+                    merged.append(a[0])
                     a.popleft()
                 else:
-                    swap(array[curr_pos], array[arraydict[b[0].height]], self)
+                    #--------Visuals--------
+                    swap(array[curr_pos], array[b[0].index], self)
 
-                    # Update dictionary by switching indices
-                    arraydict[b[0].height], arraydict[array[curr_pos].height] =  arraydict[array[curr_pos].height], arraydict[b[0].height]
+                    # Update indices
+                    b[0].index, array[curr_pos].index =  array[curr_pos].index, b[0].index
 
                     # Update bars array by switching indices
-                    array[arraydict[array[curr_pos].height]], array[arraydict[b[0].height]] = array[arraydict[b[0].height]], array[arraydict[array[curr_pos].height]]
+                    array[array[curr_pos].index], array[b[0].index] = array[b[0].index], array[array[curr_pos].index]
                     
                     # Traverse to next bar position
                     curr_pos += 1
-                    merged.append(b[0])
                     self.play(b[0].animate.set_fill(BLUE),a[0].animate.set_fill(BLUE), run_time=0.1)
+                    #--------/Visuals--------
+                    merged.append(b[0])
                     b.popleft()
                 
             
             while a:
-                swap(array[curr_pos], array[arraydict[a[0].height]], self)
-                # Update dictionary by switching indices
-                arraydict[a[0].height], arraydict[array[curr_pos].height] =  arraydict[array[curr_pos].height], arraydict[a[0].height]
+                #--------Visuals--------
+                swap(array[curr_pos], array[a[0].index], self)
+                # Update indices
+                a[0].index, array[curr_pos].index =  array[curr_pos].index, a[0].index
 
-                # Update bars array by switching indices
-                array[arraydict[array[curr_pos].height]], array[arraydict[a[0].height]] = array[arraydict[a[0].height]], array[arraydict[array[curr_pos].height]]
+                # Update bars' array by switching indices
+                array[array[curr_pos].index], array[a[0].index] = array[a[0].index], array[array[curr_pos].index]
 
                 # Traverse to next bar position
                 curr_pos += 1
+                #--------/Visuals--------
                 merged.append(a[0])
                 a.popleft()
             while b:
-                swap(array[curr_pos], array[arraydict[b[0].height]], self)
-                # Update dictionary by switching indices
-                arraydict[b[0].height], arraydict[array[curr_pos].height] =  arraydict[array[curr_pos].height], arraydict[b[0].height]
+                #--------Visuals--------
+                swap(array[curr_pos], array[b[0].index], self)
+
+                # Update indices
+                b[0].index, array[curr_pos].index =  array[curr_pos].index, b[0].index
 
                 # Update bars array by switching indices
-                array[arraydict[array[curr_pos].height]], array[arraydict[b[0].height]] = array[arraydict[b[0].height]], array[arraydict[array[curr_pos].height]]
+                array[array[curr_pos].index], array[b[0].index] = array[b[0].index], array[array[curr_pos].index]
                 
                 # Traverse to next bar position
                 curr_pos += 1
+                #--------/Visuals--------
                 merged.append(b[0])
                 b.popleft()
             
-            self.play(mergedVGroup.animate.set_fill(WHITE), run_time=0.1)
+            self.play(mergedVGroup.animate.set_fill(WHITE), run_time=0.1) #--------Visuals/--------
             return merged
         def mergeSort(array) -> deque[Rectangle]:
             if len(array) == 1:
@@ -356,13 +326,13 @@ class QuickSort(Scene):
         # Move Title
         self.play(title.animate.to_edge(UP+RIGHT), run_time=0.5)
 
-        # # Run Quick Sort
+        # Run Quick Sort
         def partition(arr:list[Rectangle], low:int, high:int):
             # Choose pivot using the median-of-three method
             helper = [ low, (high+low+1) // 2, high]
             medianOfThree = [arr[low].height,arr[(high+1+low)//2].height, arr[high].height]
 
-            # Use unrolled Bubble Sort to sort the array
+            # Use unrolled Bubble Sort to sort the array (O(1))
             for i in range(2):
                 for j in range(2-i):
                     if medianOfThree[j] > medianOfThree[j+1]:
@@ -374,17 +344,21 @@ class QuickSort(Scene):
             pivot_pos = (high+1+low)//2
             # Setup pointers used to parse and arrange array into two sub-arrays (Greater than pivot and smaller than pivot)
             l_idx = low
+            #--------Visuals--------
             l_idx_indicator = VGroup()
             l_idx_arrow = Arrow(start= arr[l_idx].get_bottom() + 1.4*DOWN, end=arr[l_idx].get_bottom()+0.4*DOWN, color=WHITE)
             l_idx_indicator.add(l_idx_arrow)
             l_idx_indicator.add(Text("l_idx",font_size=20,color=BLUE_B).next_to(l_idx_arrow, DOWN))
+            #--------/Visuals--------
+
 
             r_idx = high - 1
+            #--------Visuals--------
             r_idx_indicator = VGroup()
             r_idx_arrow = Arrow(start= arr[r_idx].get_bottom() + 1.4*DOWN, end=arr[r_idx].get_bottom()+0.4*DOWN, color=WHITE)
             r_idx_indicator.add(r_idx_arrow)
             r_idx_indicator.add(Text("r_idx",font_size=20,color=RED).next_to(r_idx_arrow, DOWN))
-            
+            #--------/Visuals--------
 
             #--------Visuals--------
             # Label used to indicate where the pivot is located
@@ -419,10 +393,11 @@ class QuickSort(Scene):
             while l_idx <= r_idx:
                 # Revert pointers to the edges of the sub-array (This is done for clarity purposes when visualizing and is not necessary in the algorithm)
 
-                l_idx = low # <- Removable
-                r_idx = high - 1 # <- Removable
-
                 #--------Visuals--------
+                l_idx = low
+                r_idx = high - 1
+
+                
                 self.play(r_idx_indicator.animate.move_to([arr[r_idx].get_x(),r_idx_indicator.get_y(),0]),l_idx_indicator.animate.move_to([arr[l_idx].get_x(),l_idx_indicator.get_y(),0]), run_time=0.2)
                 #--------/Visuals--------
 
@@ -454,7 +429,7 @@ class QuickSort(Scene):
                     # Swapping array elements.
                     arr[r_idx], arr[l_idx]= arr[l_idx], arr[r_idx]
 
-            #--------/Visuals--------
+            #--------Visuals--------
             self.wait(0.4)
             self.play(Unwrite(l_idx_indicator),Unwrite(r_idx_indicator), run_time=0.2)
             
@@ -478,12 +453,6 @@ class QuickSort(Scene):
             self.play(Unwrite(pivot_title),Unwrite(pivot_arrow_1), Unwrite(pivot_arrow_2),Unwrite(pivot_arrow_3),arr[l_idx].animate.set_fill(GREEN), run_time=0.13)
             #--------/Visuals--------
 
-            # Deallocate memory
-            pivot_title = pivot_arrow_1 = pivot_arrow_2 = pivot_arrow_3 = None
-            del pivot_title
-            del pivot_arrow_1
-            del pivot_arrow_2
-            del pivot_arrow_3
 
             return l_idx
 

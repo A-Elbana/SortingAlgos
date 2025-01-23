@@ -1,5 +1,6 @@
 *test.py
 *.mp4
 media/
+videos/
 explanation/
 __pycache__/
