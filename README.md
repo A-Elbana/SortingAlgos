@@ -239,7 +239,7 @@ Linkedin: https://www.linkedin.com/in/abdelrahmanwisam/
 
 <!-- Disclaimer -->
 ## Disclaimer
-*While this visualization tool demonstrates the steps involved in each sorting algorithm, the actual time taken for the animation to complete should not be considered a direct measure of the algorithm's performance. Some algorithms may have visually longer or more complex animations, which can affect the perceived execution time. For a true performance comparison, refer to the provided metrics based on computational complexity and operations count, not animation duration.*
+*While this visualization tool demonstrates the steps involved in each sorting algorithm, the actual time taken for the animation to complete should not be considered a direct measure of the algorithm's performance. Some algorithms may have visually longer or more complex animations, which can affect the perceived execution time. For a true performance comparison, refer to the provided metrics based on computational complexity, not animation duration.*
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
