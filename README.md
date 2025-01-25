@@ -150,7 +150,7 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 ---
 
 ## Merge Sort
-##### Time Complexity: $O(n \log(n))$
+##### Time Complexity: $\Theta (n \log(n))$
 ##### Space Complexity: $O(n)$
 ##### Methodology: $Divide \ and \ Conquer$ (Bottom-Top)
 
@@ -159,11 +159,16 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 ### Explanation:
 
 1. Divide the list or array recursively into two halves until it can't be divided anymore.
-2. Recursively sort each half using merge sort. (Using an auxillary array and by comparing elements from each half)
+2. Recursively sort each half using merge sort.
 ![][SortSub]
 
 3. If the array contains only one element, it is already sorted. (Base Case)
-4. Merge the sorted halves back together into a single sorted array.
+4. When comparing two halves `a` and `b` of one or more elements:
+- *Without loss of generality*, assume `a` has more elements than `b`. `a` and `b` should both be internally sorted, so we treat them as `queues` and compare the head of each queue. The larger element is pushed to an auxiliary array `c` and popped from its queue.
+- Repeat the previous process till either `a` or `b` becomes empty.
+- Push the remaining elements of the non-empty half to the end of `c`
+- `c` is now the merged array of `a` and `b`, and will be one of the halves of the next recursive call in the call stack.
+5. Merge the sorted halves back together into a single sorted array.
 ![][Merge]
 
 5. Repeat steps 1-4 until the entire array is sorted.
