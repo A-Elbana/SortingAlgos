@@ -168,7 +168,6 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 - Repeat the previous process till either `a` or `b` becomes empty.
 - Push the remaining elements of the non-empty half to the end of `c`
 - `c` is now the merged array of `a` and `b`, and will be one of the halves of the next recursive call in the call stack.
-5. Merge the sorted halves back together into a single sorted array.
 ![][Merge]
 
 5. Repeat steps 1-4 until the entire array is sorted.
