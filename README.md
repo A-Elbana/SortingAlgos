@@ -164,7 +164,7 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
 3. If the array contains only one element, it is already sorted. (Base Case)
 4. When comparing two halves `a` and `b` of one or more elements:
-- *Without loss of generality*, assume `a` has more elements than `b`. `a` and `b` should both be internally sorted, so we treat them as `queues` and compare the head of each queue. The larger element is pushed to an auxiliary array `c` and popped from its queue.
+- *Without loss of generality*, assume `a` has more elements than `b`. `a` and `b` should both be internally sorted, so we treat them as `queues` and compare the head of each queue. The smaller element is pushed to an auxiliary array `c` and popped from its queue.
 - Repeat the previous process till either `a` or `b` becomes empty.
 - Push the remaining elements of the non-empty half to the end of `c`
 - `c` is now the merged array of `a` and `b`, and will be one of the halves of the next recursive call in the call stack.
