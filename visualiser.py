@@ -1,9 +1,10 @@
-from manim import Rectangle, Tex, Scene, Write, UP, DR, UL, DL, LEFT, GREEN, DARK_BLUE, ORIGIN, RIGHT, VGroup, RED, YELLOW_D, Unwrite, BLUE, BLUE_B, BLUE_E, Arrow, DOWN, WHITE, Text
+from math import floor, log2
+from manim import Rectangle, Tex, Scene, Write, UP, DR, UL, DL, LEFT, GREEN, DARK_BLUE, ORIGIN, RIGHT, VGroup, RED, YELLOW_D, Unwrite, BLUE, BLUE_B, BLUE_E, Arrow, DOWN, WHITE, Text, BraceBetweenPoints, Point, PI
 
 # Import the double-ended queue
 from collections import deque, defaultdict
 
-from classes import Element, RNGenerator
+from classes import Element, GapIndicator, RNGenerator
 import constants
 
 def generateName():
@@ -14,12 +15,24 @@ def swap(a:Element,b:Element,scene, run_time = 0.07, **kwargs):
     radix = kwargs.get("radix") or False
     if (a != b) or radix:
         # Make sure we are not switching the same bar. (Example: When our new bar position is the same as the old one)
-        pj = a.get_bottom()
-        pj1 = b.get_bottom()
+        bottom_a = a.get_bottom()
+        bottom_b = b.get_bottom()
         scene.play(
-            a.animate.shift(pj1-pj),
-            b.animate.shift(pj-pj1),
+            a.animate.shift(bottom_b-bottom_a),
+            b.animate.shift(bottom_a-bottom_b),
             run_time = run_time
+        )
+
+def swap_using_top(a:Element, b:Element, scene, run_time=0.07):
+    # Switch positions visually using the top of the Mobject
+    if (a != b) :
+        # Make sure we are not switching the same bar. (Example: When our new bar position is the same as the old one)
+        top_a = a.get_top()
+        top_b = b.get_top()
+        scene.play(
+            a.animate.shift(top_b - top_a),
+            b.animate.shift(top_a - top_b),
+            run_time=run_time
         )
 
 class BubbleSort(Scene):
@@ -339,8 +352,11 @@ class QuickSort(Scene):
                         medianOfThree[j], medianOfThree[j+1] = medianOfThree[j+1], medianOfThree[j]
                         arr[helper[j]], arr[helper[j+1]] = arr[helper[j+1]], arr[helper[j]]
                         swap(arr[helper[j]], arr[helper[j+1]], self, 0.1)
-            self.wait(0.5)
+            self.wait(0.25)
             
+            if (high-low) <= 2:
+                self.play(arr[low].animate.set_fill(GREEN),arr[(high+1+low)//2].animate.set_fill(GREEN),arr[high].animate.set_fill(GREEN), run_time=0.13)
+                return (high+1+low)//2
             pivot_pos = (high+1+low)//2
             # Setup pointers used to parse and arrange array into two sub-arrays (Greater than pivot and smaller than pivot)
             l_idx = low
@@ -391,15 +407,6 @@ class QuickSort(Scene):
             #--------/Visuals--------
 
             while l_idx <= r_idx:
-                # Revert pointers to the edges of the sub-array (This is done for clarity purposes when visualizing and is not necessary in the algorithm)
-
-                #--------Visuals--------
-                l_idx = low
-                r_idx = high - 1
-
-                
-                self.play(r_idx_indicator.animate.move_to([arr[r_idx].get_x(),r_idx_indicator.get_y(),0]),l_idx_indicator.animate.move_to([arr[l_idx].get_x(),l_idx_indicator.get_y(),0]), run_time=0.2)
-                #--------/Visuals--------
 
                 # Parse the sub-array from the left until a number greater than the pivot is found
                 while arr[l_idx].height < arr[high].height:
@@ -472,7 +479,6 @@ class QuickSort(Scene):
         ordered_group = VGroup(*array)
         self.play(ordered_group.animate(lag_ratio=0.2).set_color(GREEN))
         self.wait(5)
-
 
 
 
@@ -614,3 +620,208 @@ class RadixSort(Scene):
         self.play(githubName.animate.scale(1/0.75 +0.2).next_to(ordered_group, UP), Write(Tex(r"Radix Sort $O(n * d)$", font_size=55).next_to(ordered_group, DOWN)))
         self.play(ordered_group.animate(lag_ratio=0.3).set_fill(GREEN).set_color(GREEN))
         self.wait(5)
+
+
+def play(self, *args, run_time=0.1):
+    if args:
+        self.play(*args, run_time=run_time)
+
+class InsertionSort(Scene):
+    """Manim Scene Class
+    """
+    
+    def construct(self):
+        n= min(15, constants.N) # Number of elements
+        rn = RNGenerator(n) # Generator object
+        shifting = 0.1 # Padding between bars
+
+        # Get bar width relative to frame size
+        bar_width = (self.camera.frame_width - shifting * n - 3) / (n)
+
+        # Generate Title
+        title = Tex(r"Insertion Sort $O(n^{2})$", font_size=55).to_edge(DOWN)
+
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName), Write(title))
+
+        # Setup bar for each element
+        array=[Rectangle(width=bar_width) for _ in range(n)]
+        for i in range (0, n):
+            # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
+            array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.4)
+
+            # Shift bar to the right by its width + the shifting which acts as padding
+            array[i].shift(RIGHT*(bar_width+shifting)*i)
+            
+            # Align the bottom edge of each bar
+            array[i].align_to((0,0,0),DOWN)
+        group=VGroup(*array)
+        group.move_to(ORIGIN)
+        group.set_fill(WHITE,opacity=1)
+        self.play(*[Write(o) for o in array])
+        gt = Text("<", font_size=35, weight="BOLD").rotate(PI/2).save_state()
+        lt = Text("<", font_size=35, weight="BOLD").rotate(-PI/2).save_state()
+        w = lt.width
+        # /Setup
+
+
+        # Move Title
+        self.play(title.animate.to_edge(UP+RIGHT), run_time=0.25)
+        
+        
+        
+        # Run Insertion Sort
+        for i in range(1,len(array)):
+            
+            temp = array[i]
+            temp_in = temp.get_bottom()
+            j = i
+
+            c = i
+            gapped:list[Rectangle] = []
+            while (c >= 1):
+                gapped.append(array[c - 1])
+                c -= 1
+            highlight = list(map(lambda x: x.animate.set_fill(BLUE_E), gapped))
+            highlight.append(temp.animate.shift(DOWN*(temp.height + w + 4*shifting)).set_fill(YELLOW_D))
+            
+            play(self, *highlight, run_time=0.5)
+
+
+            while (j >= 1):
+                self.play(temp.animate.shift(array[j-1].get_bottom()- temp_in), run_time=0.25)
+                if (array[j - 1].height > temp.height):
+                    gt.restore().move_to(array[j-1].get_bottom() + (w + shifting)*DOWN)
+                    self.play(Write(gt), run_time=0.25)
+                    self.play(Unwrite(gt), run_time=0.25)
+                    new_temp_in = array[j - 1].get_bottom()
+                    self.play(array[j-1].animate.shift(temp_in - array[j-1].get_bottom()).set_fill(RED), run_time=0.25)
+                    
+                    temp_in = new_temp_in
+                    array[j] = array[j - 1]
+                    
+                    j -= 1
+                    
+                else:
+                    lt.restore().move_to(array[j-1].get_bottom() + (w + shifting)*DOWN)
+                    self.play(Write(lt), run_time=0.25)
+                    self.play(Unwrite(lt), run_time=0.25)
+                    self.play(temp.animate.shift(temp_in - array[j-1].get_bottom()), array[j-1].animate.set_fill(GREEN), run_time=0.25)
+                    break
+                    
+            array[j] = temp
+            
+            remove_highlight = list(map(lambda x: x.animate.set_fill(WHITE), gapped))
+            remove_highlight.append(temp.animate.shift(UP*(temp.height + w + 4*shifting)).set_fill(WHITE))
+            play(self, *remove_highlight, run_time=0.5)
+                
+            
+        
+        self.play(VGroup(*array).animate.set_color(GREEN), run_time=1, lag_ratio=0.3)
+        self.wait(2)
+class ShellSort(Scene):
+    """Manim Scene Class
+    """
+    
+    def construct(self):
+        n= min(15, constants.N) # Number of elements
+        rn = RNGenerator(n) # Generator object
+        shifting = 0.1 # Padding between bars
+
+        # Get bar width relative to frame size
+        bar_width = (self.camera.frame_width - shifting * n - 3) / (n)
+
+        # Generate Title
+        title = Tex(r"Shell Sort $O(n^{\frac{4}{3}})$", font_size=55).to_edge(DOWN)
+
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName), Write(title))
+
+        # Setup bar for each element
+        array=[Rectangle(width=bar_width) for _ in range(n)]
+        for i in range (0, n):
+            # Stretch bar height appropriately to fit in frame. Height range: [(half screen height)/n, (half screen height)].
+            array[i].stretch_to_fit_height(rn.next() /(n*1.0) * self.camera.frame_height * 0.4)
+
+            # Shift bar to the right by its width + the shifting which acts as padding
+            array[i].shift(RIGHT*(bar_width+shifting)*i)
+            
+            # Align the bottom edge of each bar
+            array[i].align_to((0,0,0),DOWN)
+        group=VGroup(*array)
+        group.move_to(ORIGIN + DOWN)
+        group.set_fill(WHITE,opacity=1)
+        self.play(*[Write(o) for o in array])
+        gt = Text("<", font_size=35, weight="BOLD").rotate(PI/2).save_state()
+        lt = Text("<", font_size=35, weight="BOLD").rotate(-PI/2).save_state()
+        w = lt.width
+        # /Setup
+
+
+        # Move Title
+        self.play(title.animate.to_edge(UP+RIGHT), run_time=0.25)
+        
+        
+        
+        # Run Shell Sort
+        gaps = [2**i - 1 for i in range(floor(log2(len(array))),0, -1)]
+
+        for gap in gaps:
+            if gap == 1:
+                inssort = Text("Ordinary Insertion Sort", font_size=35).next_to(group, UP)
+                self.play(Write(inssort), run_time=0.5)
+            gapIndicator = GapIndicator(gap, n, bar_width + shifting, [array[0].get_x(), self.camera.frame_height * 0.2, 0] + DOWN, self)
+            gapIndicator.createIndicator()
+            for i in range(gap,len(array)):
+                
+                temp = array[i]
+                temp_in = temp.get_bottom()
+                j = i
+
+                c = i
+                gapped:list[Rectangle] = []
+                while (c >= gap):
+                    gapped.append(array[c - gap])
+                    c -= gap
+                highlight = list(map(lambda x: x.animate.set_fill(BLUE_E), gapped))
+                highlight.append(temp.animate.shift(DOWN*(temp.height + w + 4*shifting)).set_fill(YELLOW_D))
+                
+                play(self, *highlight, run_time=0.5)
+
+
+                while (j >= gap):
+                    self.play(temp.animate.shift(array[j-gap].get_bottom()- temp_in), run_time=0.25)
+                    if (array[j - gap].height > temp.height):
+                        gt.restore().move_to(array[j-gap].get_bottom() + (w + shifting)*DOWN)
+                        self.play(Write(gt), run_time=0.25)
+                        self.play(Unwrite(gt), run_time=0.25)
+                        new_temp_in = array[j - gap].get_bottom()
+                        self.play(array[j-gap].animate.shift(temp_in - array[j-gap].get_bottom()).set_fill(RED), run_time=0.25)
+                        
+                        temp_in = new_temp_in
+                        array[j] = array[j - gap]
+                        
+                        j -= gap
+                        
+                    else:
+                        lt.restore().move_to(array[j-gap].get_bottom() + (w + shifting)*DOWN)
+                        self.play(Write(lt), run_time=0.25)
+                        self.play(Unwrite(lt), run_time=0.25)
+                        self.play(temp.animate.shift(temp_in - array[j-gap].get_bottom()), array[j-gap].animate.set_fill(GREEN), run_time=0.25)
+                        break
+                    
+                array[j] = temp
+                
+                remove_highlight = list(map(lambda x: x.animate.set_fill(WHITE), gapped))
+                remove_highlight.append(temp.animate.shift(UP*(temp.height + w + 4*shifting)).set_fill(WHITE))
+                play(self, *remove_highlight, run_time=0.5)
+                if i < len(array) - 1:
+                    gapIndicator.moveIndicators()
+            del gapIndicator
+            if gap == 1:
+                self.play(Unwrite(inssort), run_time=0.75)
+        
+        self.play(VGroup(*array).animate.set_color(GREEN), run_time=1, lag_ratio=0.3)
+        self.wait(2)

@@ -1,5 +1,5 @@
 import random
-from manim import Rectangle
+from manim import Rectangle, VGroup, BraceBetweenPoints, Tex, UP, RIGHT, Write, Unwrite
 
 class Element(Rectangle):
     index = 0
@@ -92,3 +92,40 @@ class RNGenerator:
 #             if random_number not in self.used_numbers:
 #                 self.used_numbers.add(random_number)
 #                 return random_number
+
+
+class GapIndicator:
+    def __init__(self, gap:int, n:int, width, st_position, scene):
+        self.gap = gap
+        self.n = n
+        self.width = width
+        self.st_position = st_position
+        self.scene = scene
+        self.moves:int = 0
+        self.Indicators = VGroup()
+        self.no_label = False
+    
+    def createIndicator(self):
+        if self.gap == 1:
+            return
+        indicator = BraceBetweenPoints(self.st_position, self.st_position + RIGHT*(self.width)*self.gap, UP, buff = 0)
+        if not self.no_label:
+            indicator_text = Tex(f"$k = {self.gap}$", font_size=35).next_to(indicator, UP)
+            if indicator_text.width > indicator.width:
+                self.no_label = True
+            else:
+                indicator = VGroup(indicator, indicator_text)
+        
+        self.Indicators.add(indicator)
+        self.scene.play(Write(indicator), run_time=0.5)
+
+    def moveIndicators(self):
+        if self.gap == 1:
+            return
+        self.moves += 1
+        self.scene.play(self.Indicators.animate.shift(RIGHT*(self.width)), run_time=0.25)
+        if self.moves%self.gap == 0:
+            self.createIndicator()
+    
+    def __del__(self):
+        self.scene.play(Unwrite(self.Indicators), run_time=1)
