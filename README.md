@@ -95,6 +95,8 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 | Merge Sort| `MergeSort` |
 | Quick Sort| `QuickSort` |
 | Radix Sort| `RadixSort` |
+| Insertion Sort| `InsertionSort` |
+| Shell Sort| `ShellSort` |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -216,6 +218,13 @@ https://github.com/user-attachments/assets/dcc503cc-9bf6-49a3-b6d4-56233a762f56
 
 
 
+
+
+
+https://github.com/user-attachments/assets/1a051ddd-0c4b-4535-b857-5a38498de981
+
+
+
 ### Explanation:
 1. **Iterate through the array:**  
    Starting from the second element, consider each element in the array one by one.
@@ -225,6 +234,8 @@ https://github.com/user-attachments/assets/dcc503cc-9bf6-49a3-b6d4-56233a762f56
 
 3. **Insert the element:**  
    Once the correct position is identified, insert the current element.
+
+
 
 4. **Repeat for all elements:**  
    Continue this process until every element is inserted in its proper position, resulting in a sorted array.
@@ -237,20 +248,20 @@ https://github.com/user-attachments/assets/dcc503cc-9bf6-49a3-b6d4-56233a762f56
 ##### Time Complexity: $O(n^2)$ (Worst-case. With optimized gap sequences, the average performance can be significantly better.)
 ##### Space Complexity: $O(1)$ (In-place sorting algorithm)
 
-
+https://github.com/user-attachments/assets/1550270e-301f-426a-816c-0f9a6479ec71
 
 ### Explanation:
 1. **Select an initial gap:**  
    Start with a `gap` value (commonly half the length of the array) to determine which elements to compare. However, there are sets of sequences that may affect the time complexity of the algorithm. You can check these sequences [here](https://en.wikipedia.org/wiki/Shellsort#Gap_sequences). Refer to this [link](https://oeis.org/A000225) for the one used in this visualisation.
 
 2. **Gapped Insertion Sort:**  
-   For the current gap, perform a modified insertion sort where elements that are `gap` positions apart are compared and swapped if necessary.
+   For the current `gap`, perform a modified insertion sort where elements that are `gap` positions apart are compared and swapped if necessary.
 
 3. **Reduce the gap:**  
-   After sorting with the current gap, reduce the gap (often by halving it) and repeat the gapped insertion sort on the now partially sorted array.
-4. Repeat steps `2-3` until the gap is reduced to `1`.
+   After sorting with the current `gap`, reduce the gap (often by halving it) and repeat the gapped insertion sort on the now partially sorted array.
+4. Repeat steps `2-3` until the `gap` is reduced to `1`.
 5. **Final pass:**  
-   When the gap is reduced to 1, perform a final standard insertion sort to ensure the entire array is fully sorted.
+   When the `gap` is reduced to 1, perform a final standard insertion sort to ensure the entire array is fully sorted.
 
 
 
