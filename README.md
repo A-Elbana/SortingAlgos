@@ -158,7 +158,7 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 
 ### Explanation:
 
-1. Divide the list or array recursively into two halves until it can't be divided anymore.
+1. Divide the array recursively into two halves until it can't be divided anymore.
 2. Recursively sort each half using merge sort.
 ![][SortSub]
 
@@ -209,8 +209,48 @@ https://github.com/user-attachments/assets/dcc503cc-9bf6-49a3-b6d4-56233a762f56
 4. Collect elements (Resort the array according to buckets' arrangement)
 6. Repeat steps `3-4` for each digit until sorted.
 
+---
+## Insertion Sort
+##### Time Complexity: $O(n^2)$ (Worst-case, Average-case. Best-case is $O(n)$ when the array is nearly sorted.)
+##### Space Complexity: $O(1)$ (In-place sorting algorithm)
 
 
+
+### Explanation:
+1. **Iterate through the array:**  
+   Starting from the second element, consider each element in the array one by one.
+
+2. **Find the correct insertion position:**  
+   Compare the current element with the elements before it. Shift larger elements one position to the right to create space.
+
+3. **Insert the element:**  
+   Once the correct position is identified, insert the current element.
+
+4. **Repeat for all elements:**  
+   Continue this process until every element is inserted in its proper position, resulting in a sorted array.
+
+
+
+---
+
+## Shell Sort
+##### Time Complexity: $O(n^2)$ (Worst-case. With optimized gap sequences, the average performance can be significantly better.)
+##### Space Complexity: $O(1)$ (In-place sorting algorithm)
+
+
+
+### Explanation:
+1. **Select an initial gap:**  
+   Start with a `gap` value (commonly half the length of the array) to determine which elements to compare. However, there are sets of sequences that may affect the time complexity of the algorithm. You can check these sequences [here](https://en.wikipedia.org/wiki/Shellsort#Gap_sequences). Refer to this [link](https://oeis.org/A000225) for the one used in this visualisation.
+
+2. **Gapped Insertion Sort:**  
+   For the current gap, perform a modified insertion sort where elements that are `gap` positions apart are compared and swapped if necessary.
+
+3. **Reduce the gap:**  
+   After sorting with the current gap, reduce the gap (often by halving it) and repeat the gapped insertion sort on the now partially sorted array.
+4. Repeat steps `2-3` until the gap is reduced to `1`.
+5. **Final pass:**  
+   When the gap is reduced to 1, perform a final standard insertion sort to ensure the entire array is fully sorted.
 
 
 

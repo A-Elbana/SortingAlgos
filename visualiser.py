@@ -766,6 +766,8 @@ class ShellSort(Scene):
         
         
         # Run Shell Sort
+
+        # Using Hibbard's sequence (https://oeis.org/A000225)
         gaps = [2**i - 1 for i in range(floor(log2(len(array))),0, -1)]
 
         for gap in gaps:
