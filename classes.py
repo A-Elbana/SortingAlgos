@@ -1,5 +1,6 @@
 import random
-from manim import Rectangle, VGroup, BraceBetweenPoints, Tex, UP, RIGHT, Write, Unwrite
+from manim import Rectangle, VGroup, BraceBetweenPoints, Tex, UP, RIGHT, Write, Unwrite, BLACK, Circle, WHITE
+
 
 class Element(Rectangle):
     index = 0
@@ -129,3 +130,48 @@ class GapIndicator:
     
     def __del__(self):
         self.scene.play(Unwrite(self.Indicators), run_time=1)
+
+class Node(Circle):
+    def __init__(self, **kwargs):
+        # Initialize the outer circle using Circle's __init__
+        params = kwargs.copy()
+        params.pop("text")
+        super().__init__(**params)
+
+        radius = kwargs.get("radius")
+        # Add the inner circle as a submobject
+        self.add(
+            VGroup(
+                Circle(radius=radius, color=BLACK, z_index=0).set_opacity(1),
+                Tex(kwargs.get("text")).scale_to_fit_height(radius),
+            )
+        )
+
+
+class arrElement(Rectangle):
+    def __init__(
+        self,
+        value: int = 0,
+        color=WHITE,
+        height=2,
+        width=4,
+        grid_xstep=None,
+        grid_ystep=None,
+        mark_paths_closed=True,
+        close_new_points=True,
+        **kwargs,
+    ):
+        # Initialize the rectangle with given parameters
+        super().__init__(
+            color,
+            height,
+            width,
+            grid_xstep,
+            grid_ystep,
+            mark_paths_closed,
+            close_new_points,
+            **kwargs,
+        )
+        self.value = value
+        # Add the value as a Tex object inside the rectangle
+        self.add(Tex(value).scale_to_fit_height(self.width - 0.5 * self.width))

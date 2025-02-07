@@ -1,10 +1,10 @@
 from math import floor, log2
-from manim import Rectangle, Tex, Scene, Write, UP, DR, UL, DL, LEFT, GREEN, DARK_BLUE, ORIGIN, RIGHT, VGroup, RED, YELLOW_D, Unwrite, BLUE, BLUE_B, BLUE_E, Arrow, DOWN, WHITE, Text, BraceBetweenPoints, Point, PI
+from manim import Rectangle, Tex, Scene, Write, UP, DR, UL, DL, LEFT, GREEN, DARK_BLUE, ORIGIN, RIGHT, VGroup, RED, YELLOW_D, Unwrite, BLUE, BLUE_B, BLUE_E, Arrow, DOWN, WHITE, Text, BraceBetweenPoints, Point, PI, Graph, ManimColor, Transform, Circle, BLACK, UR
 
 # Import the double-ended queue
 from collections import deque, defaultdict
 
-from classes import Element, GapIndicator, RNGenerator
+from classes import Element, GapIndicator, Node, RNGenerator, arrElement
 import constants
 
 def generateName():
@@ -156,6 +156,256 @@ class SelectionSort(Scene):
 
 
 
+
+
+class HeapSort(Scene):
+    LAYOUT_CONFIG = {"vertex_spacing": (-1, 1)}
+    VERTEX_TYPE = Node
+    VERTEX_CONF = {
+        "radius": 0.25,
+        "color": BLUE_B,
+        "fill_opacity": 0.1,
+        "stroke_color": WHITE,
+        "z_index": 2,
+        "text": "0",
+    }
+
+    def construct(self):
+        self.n = 7
+        n = 7
+        rn = RNGenerator(9)
+        elementWidth = 0.8 * (self.camera.frame_width - 3) / (10)
+        self.array = [
+            arrElement(width=elementWidth, height=elementWidth, value=rn.next())
+            for _ in range(n)
+        ]
+
+        # Generate Title
+        title = Tex(r"Heap Sort $O(n \log(n))$", font_size=55).to_edge(DOWN)
+
+        # Generate Credits
+        githubName = generateName()
+        self.play(Write(githubName), Write(title))
+
+        # Display initial steps
+        steps = Tex(r"Turn the array into a binary tree.", font_size=34).next_to(
+            ORIGIN, DOWN * 3.5, buff=0.5
+        )
+        group = VGroup(*self.array).arrange(DOWN, buff=0).to_edge(LEFT)
+        self.play(
+            Write(group), githubName.animate.to_corner(DR), title.animate.to_corner(UR)
+        )
+        self.play(Write(steps))
+
+        # Initialize the heap with the first element
+        self.VERTEX_CONF["text"] = str(self.array[0].value)
+        self.q = deque(["0"])
+        self.nodes = ["0"]
+        heap = Graph(
+            ["0"], [], vertex_type=self.VERTEX_TYPE, vertex_config=self.VERTEX_CONF
+        )
+        self.play(Write(heap))
+
+        # Add remaining elements to the heap
+        for i in range(1, n):
+            e: arrElement = group[i]
+            self.play(
+                e.animate.set_fill(GREEN, 0.5),
+                e.submobjects[0].animate.set_opacity(1),
+                run_time=0.25,
+            )
+            self.add_node_to_tree(heap, str(e.value))
+            self.play(
+                e.animate.set_fill(GREEN, 0),
+                e.submobjects[0].animate.set_opacity(1),
+                run_time=0.25,
+            )
+            self.wait(0.25)
+
+        # Convert the binary tree into a max heap
+        self.display_message(steps, r"Convert the binary tree into a max heap.", True)
+        self.display_message(
+            steps, r"We use the heapify algorithm on the non-leaf nodes."
+        )
+        self.max_heapify(heap)
+
+        # Start sorting process
+        self.display_message(
+            steps, r"Now that we have a max heap, we can start sorting.", True
+        )
+        self.display_message(
+            steps, r"We know that the root is the largest element in the heap."
+        )
+        self.wait(2)
+        self.play(
+            heap.vertices["0"].submobjects[0][0].animate.set_color(DARK_BLUE),
+            run_time=0.25,
+        )
+
+        # Swap and remove the root element
+        self.display_message(
+            steps,
+            r"We can pop that element and place it at the end of the array.",
+            True,
+        )
+        self.display_message(
+            steps, r"We swap it with the last element and remove it from the heap.", True
+        )
+        self.swapVerts(heap, "0", self.nodes[-1])
+        self.wait(3)
+        self.remove_node_from_tree(heap, self.nodes[-1])
+        self.nodes.pop()
+        self.wait(3)
+
+        # Fix the heap property
+        self.display_message(
+            steps, r"Now the binary tree violates the max-heap property.", True
+        )
+        self.display_message(
+            steps, r"We can fix this by calling heapify on the root.", True
+        )
+        self.max_heapify(heap)
+
+        # Repeat until the heap is empty
+        self.display_message(
+            steps, r"We repeat the previous steps until the heap is empty.", True
+        )
+        for i in range(n - 1):
+            self.swapVerts(heap, "0", self.nodes[-1])
+            self.remove_node_from_tree(heap, self.nodes[-1])
+            self.nodes.pop()
+            if self.nodes:
+                self.max_heapify(heap)
+
+        # Display sorted array
+        self.display_message(steps, r"The array is now sorted.", True)
+        sorted_array = VGroup(*self.array)
+        self.play(
+            sorted_array.animate.arrange(RIGHT, buff=0).move_to(ORIGIN),
+            Unwrite(steps),
+            githubName.animate.next_to(sorted_array.copy().arrange(RIGHT, buff=0).move_to(ORIGIN), UP),
+            title.animate.next_to(sorted_array.copy().arrange(RIGHT, buff=0).move_to(ORIGIN), DOWN),
+            run_time=1,
+        )
+        self.play(sorted_array.animate(lag_ratio=0.3).set_color(GREEN), run_time=1)
+
+        self.wait(5)
+
+    def max_heapify(self, heap: Graph):
+        def heapify_down(heap, node):
+            left_child = f"{node}/0"
+            right_child = f"{node}/1"
+            largest = node
+            if left_child in heap.vertices and int(
+                heap.vertices[left_child].submobjects[0][1].tex_string
+            ) > int(heap.vertices[largest].submobjects[0][1].tex_string):
+                largest = left_child
+
+            if right_child in heap.vertices and int(
+                heap.vertices[right_child].submobjects[0][1].tex_string
+            ) > int(heap.vertices[largest].submobjects[0][1].tex_string):
+                largest = right_child
+
+            if largest != node:
+                self.play(
+                    heap.vertices[node]
+                    .submobjects[0][0]
+                    .animate.set_color(ManimColor("#9A3020")),
+                    run_time=0.25,
+                )
+                self.swapVerts(heap, node, largest)
+
+                heapify_down(heap, largest)
+
+        for i in self.nodes[(len(self.nodes) // 2) - 1 :: -1]:
+            heapify_down(heap, str(i))
+
+    def display_message(self, mobject: Tex, text, wait=False):
+        to = Tex(text, font_size=34).move_to(mobject.get_center())
+        self.play(Transform(mobject, to), run_time=0.5)
+        if wait:
+            self.wait(3)
+
+    def swapVerts(self, heap, a, b):
+        swap(
+            self.array[self.vertex_to_index(a)],
+            self.array[self.vertex_to_index(b)],
+            self,
+            0.25,
+        )
+        self.array[self.vertex_to_index(a)], self.array[self.vertex_to_index(b)] = (
+            self.array[self.vertex_to_index(b)],
+            self.array[self.vertex_to_index(a)],
+        )
+        a = heap.vertices[a]
+        b = heap.vertices[b]
+        temp = b.submobjects[0][1].copy()
+        a.submobjects[0][1].tex_string, b.submobjects[0][1].tex_string = (
+            b.submobjects[0][1].tex_string,
+            a.submobjects[0][1].tex_string,
+        )
+        self.play(
+            a.submobjects[0][0].animate.set_color(BLACK),
+            Transform(
+                b.submobjects[0][1],
+                a.submobjects[0][1].copy().move_to(b.submobjects[0][1].get_center()),
+            ),
+            Transform(
+                a.submobjects[0][1], temp.move_to(a.submobjects[0][1].get_center())
+            ),
+        )
+
+    @staticmethod
+    def vertex_to_index(vertex_id):
+        if vertex_id == "0":
+            return 0
+        ids = vertex_id.split("/")
+        idx = 0
+        for i in range(1, len(ids)):
+            idx = (idx * 2) + (1 + int(ids[i]))
+        return idx
+
+    def add_node_to_tree(self, g: Graph, text: str):
+        # Find the last vertex in a binary tree
+        last_vertex_id = self.q[0]
+
+        # Check both left and right child positions
+        if f"{last_vertex_id}/0" not in g.vertices:
+            new_vertex_id = f"{last_vertex_id}/0"
+        else:
+            new_vertex_id = f"{last_vertex_id}/1"
+            self.q.popleft()
+
+        self.q.append(new_vertex_id)
+        self.nodes.append(new_vertex_id)
+        g.add_edges(
+            (last_vertex_id, new_vertex_id),
+            vertex_type=self.VERTEX_TYPE,
+            vertex_config={**self.VERTEX_CONF, "text": text},
+            positions={new_vertex_id: g.vertices[last_vertex_id].get_center()},
+        )
+        self.play(
+            g.animate.change_layout(
+                "tree",
+                root_vertex="0",
+                layout_config=self.LAYOUT_CONFIG,
+            ),
+            run_time=0.5,
+        )
+
+    def remove_node_from_tree(self, g: Graph, node_id):
+        if node_id == "0":
+            self.play(g.animate.remove_vertices(node_id), run_time=0.5)
+            return
+        self.play(
+            g.animate.remove_vertices(node_id),
+            g.animate.change_layout(
+                "tree",
+                root_vertex="0",
+                layout_config=self.LAYOUT_CONFIG,
+            ),
+            run_time=0.5,
+        )
 
 
 
