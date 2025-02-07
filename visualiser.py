@@ -11,7 +11,7 @@ def generateName():
     return Tex("Github: A-Elbana/SortingAlgos", font_size=38).to_edge(UP+LEFT).set_color_by_gradient(GREEN,GREEN,DARK_BLUE)
 
 def swap(a:Element,b:Element,scene, run_time = 0.07, **kwargs):
-    # Switch positions visually
+    """Switch positions visually"""
     radix = kwargs.get("radix") or False
     if (a != b) or radix:
         # Make sure we are not switching the same bar. (Example: When our new bar position is the same as the old one)
@@ -24,7 +24,7 @@ def swap(a:Element,b:Element,scene, run_time = 0.07, **kwargs):
         )
 
 def swap_using_top(a:Element, b:Element, scene, run_time=0.07):
-    # Switch positions visually using the top of the Mobject
+    """ Switch positions visually using the top of the Mobject"""
     if (a != b) :
         # Make sure we are not switching the same bar. (Example: When our new bar position is the same as the old one)
         top_a = a.get_top()
@@ -159,6 +159,7 @@ class SelectionSort(Scene):
 
 
 class HeapSort(Scene):
+    """Manim Scene Class"""
     LAYOUT_CONFIG = {"vertex_spacing": (-1, 1)}
     VERTEX_TYPE = Node
     VERTEX_CONF = {
