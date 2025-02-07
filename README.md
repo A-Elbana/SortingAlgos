@@ -92,6 +92,7 @@ This project visualizes various sorting algorithms using Manim. It aims to provi
 |:-------------:|:-------------:|
 | Bubble Sort| `BubbleSort` |
 | Selection Sort| `SelectionSort` |
+| Heap Sort| `HeapSort` |
 | Merge Sort| `MergeSort` |
 | Quick Sort| `QuickSort` |
 | Radix Sort| `RadixSort` |
@@ -148,6 +149,31 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
 
 5. Repeat the process for the remaining unsorted portion of the array.
+
+---
+
+## Heap Sort
+##### Time Complexity: $O(n \log n)$ (For both average and worst case)
+##### Space Complexity: $O(1)$ (In-place sorting algorithm)
+
+
+
+### Explanation:
+(*The video visually demonstrates the steps below, including heap construction and transformations.*)
+
+1. **Build a Max Heap:**  
+   Convert the input array into a max heap, where the largest element is at the root.
+
+2. **Extract the Maximum:**  
+   Swap the root (largest element) with the last element of the heap and reduce the heap size.
+
+3. **Heapify the Root:**  
+   Restore the heap property by adjusting the heap from the root downwards.
+
+4. **Repeat Until Sorted:**  
+   Continue the process until all elements are extracted, resulting in a sorted array.
+
+
 
 ---
 
