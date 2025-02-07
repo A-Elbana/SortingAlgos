@@ -158,6 +158,10 @@ https://github.com/user-attachments/assets/e0bbfa89-6433-4534-8d08-22112c2e2979
 
 
 
+https://github.com/user-attachments/assets/12000f06-ea69-4a06-aafd-3cb384f03e56
+
+
+
 ### Explanation:
 (*The video visually demonstrates the steps below, including heap construction and transformations.*)
 
