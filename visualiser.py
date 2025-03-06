@@ -173,12 +173,11 @@ class HeapSort(Scene):
 
     def construct(self):
         self.n = 7
-        n = 7
         rn = RNGenerator(9)
         elementWidth = 0.8 * (self.camera.frame_width - 3) / (10)
         self.array = [
             arrElement(width=elementWidth, height=elementWidth, value=rn.next())
-            for _ in range(n)
+            for _ in range(self.n)
         ]
 
         # Generate Title
@@ -208,7 +207,7 @@ class HeapSort(Scene):
         self.play(Write(heap))
 
         # Add remaining elements to the heap
-        for i in range(1, n):
+        for i in range(1, self.n):
             e: arrElement = group[i]
             self.play(
                 e.animate.set_fill(GREEN, 0.5),
@@ -271,7 +270,7 @@ class HeapSort(Scene):
         self.display_message(
             steps, r"We repeat the previous steps until the heap is empty.", True
         )
-        for i in range(n - 1):
+        for i in range(self.n - 1):
             self.swapVerts(heap, "0", self.nodes[-1])
             self.remove_node_from_tree(heap, self.nodes[-1])
             self.nodes.pop()
