@@ -212,11 +212,15 @@ https://github.com/user-attachments/assets/b5bd3f20-3fdb-449b-bccf-6ff082a6d6ee
 ##### Space Complexity: $O(\log(n))$ (Average Case)
 ##### Methodology: $Divide \ and \ Conquer$ (Top-Bottom)
 
-https://github.com/user-attachments/assets/33ea5bb4-a73c-4f52-9a6f-281befa3b298
+https://github.com/user-attachments/assets/2026b1c1-d132-49cc-984c-97a31baa8644
 
 ### Explanation:
 1. Choose the <span style="color:#F4D345">`Pivot`</span>:<br>To choose the pivot, the [median-of-three](https://stackoverflow.com/questions/7559608/median-of-three-values-strategy#answer-7560859) method is used.![][medianofthree]
-2. Move <span style="color:#F4D345">`Pivot`</span> to the end of the array and initialize <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span>.![][ptep]
+2. Move <span style="color:#F4D345">`Pivot`</span> to the end of the array and initialize <span style="color:#58C4DD">`l_idx`</span> 
+
+
+
+and <span style="color:red">`r_idx`</span>.![][ptep]
 3. The two pointers <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> will traverse through the array from left and from right until a value (at each respective index) greater than the <span style="color:#F4D345">`Pivot`</span> and smaller than the <span style="color:#F4D345">`Pivot`</span> is found. Then the two elements at <span style="color:#58C4DD">`l_idx`</span> and <span style="color:red">`r_idx`</span> are exchanged.![][pe]
 4. Repeat the previous step until <span style="color:#58C4DD">`l_idx`</span> is greater than <span style="color:red">`r_idx`</span>.![][pc]
 5. Exchange element at <span style="color:#58C4DD">`l_idx`</span> (greater than pivot) with the pivot (which is at the end of the array).![][ptf]
